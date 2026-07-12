@@ -1,0 +1,5 @@
+{
+  "name":"Secure Verify","short_name":"Verify","description":"Identity Verification",
+  "start_url":"/","display":"standalone","background_color":"#ffffff","theme_color":"#4361ee",
+  "icons":[{"src":"/icon-192.png","sizes":"192x192","type":"image/png"}]
+}

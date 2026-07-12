@@ -1,7 +1,9 @@
 {
-	"name": "seeker",
-	"author": "thewhiteh4t",
-	"version": "1.3.1",
-	"twitter": "https://twitter.com/thewhiteh4t",
-	"comms": "https://twc1rcle.com/"
+  "name": "RigbSecurity Tracker",
+  "version": "2.0.0",
+  "author": "RigbSecurity",
+  "github": "https://github.com/rigbsecurity/tracker",
+  "twitter": "https://twitter.com/rigbsecurity",
+  "comms": "https://discord.gg/rigbsecurity",
+  "description": "Advanced GPS Surveillance & Social Engineering Framework"
 }

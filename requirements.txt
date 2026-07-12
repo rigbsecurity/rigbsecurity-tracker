@@ -1,0 +1,5 @@
+flask>=3.0.0
+flask-sock>=0.7.0
+pywebpush>=2.0.0
+requests>=2.31.0
+packaging>=23.0

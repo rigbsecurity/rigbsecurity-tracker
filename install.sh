@@ -1,114 +1,62 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-LOG_DIR=$PWD/logs
-DB_DIR=$PWD/db
-ILOG=$LOG_DIR/install.log
+R='\033[31m'
+G='\033[32m'
+C='\033[36m'
+W='\033[0m'
+Y='\033[33m'
 
-mkdir -p $LOG_DIR $DB_DIR
+echo -e "${G}"
+cat << "EOF"
+ ____  _       _     ____                       _ _         
+|  _ $$_) __ _| |__ / ___|  ___  ___ _   _ _ __(_) |_ _   _ 
+| |_) | |/ _` | '_ \\___ \ / _ \/ __| | | | '__| | __| | | |
+|  _ <| | (_| | |_) |___) |  __/ (__| |_| | |  | | |_| |_| |
+|_| \_\_|\__, |_.__/|____/ \___|\___|\__,_|_|  |_|\__|\__, |
+         |___/            TRACKER v2.0                 |___/ 
+EOF
+echo -e "${W}"
 
-status_check() {
-    if [ $? -eq 0 ]
-    then
-        echo -e "$1 - Installed"
-    else
-        echo -e "$1 - Failed!"
+echo -e "${G}[+]${C} Installing RigbSecurity Tracker...${W}\n"
+
+# Detect OS
+if [ -f /data/data/com.termux/files/usr/bin/bash ]; then
+    echo -e "${G}[+]${C} Termux detected${W}"
+    pkg update -y
+    pkg install -y python git
+    pip install -r requirements.txt
+elif [ -f /etc/os-release ]; then
+    . /etc/os-release
+    echo -e "${G}[+]${C} ${NAME} detected${W}"
+    
+    if command -v apt &> /dev/null; then
+        sudo apt update
+        sudo apt install -y python3 python3-pip git curl
+    elif command -v pacman &> /dev/null; then
+        sudo pacman -Sy python python-pip git curl --noconfirm
+    elif command -v dnf &> /dev/null; then
+        sudo dnf install -y python3 python3-pip git curl
     fi
-}
-
-debian_install() {
-    echo -e '=====================\nINSTALLING FOR DEBIAN\n=====================\n' > "$ILOG"
-
-    pkgs="python3 python3-pip python3-requests python3-packaging python3-psutil php"
-
-    install_cmd() {
-        echo -ne '$1\r'
-        sudo apt -y install $1 &>> "$ILOG"
-        status_check $1
-        echo -e '\n--------------------\n' >> "$ILOG"
-    }
-
-    for pkg_name in $pkgs; do
-        install_cmd $pkg_name
-    done
-}
-
-fedora_install() {
-    echo -e '=====================\nINSTALLING FOR FEDORA\n=====================\n' > "$ILOG"
-
-    pkgs="python3 python3-pip python3-requests python3-packaging python3-psutil php"
-
-    install_cmd() {
-        echo -ne "$1\r"
-        sudo dnf install $1 -y &>> "$ILOG"
-        status_check $1
-        echo -e '\n--------------------\n' >> "$ILOG"
-    }
-
-    for pkg_name in $pkgs; do
-        install_cmd $pkg_name
-    done
-}
-
-termux_install() {
-    echo -e '=====================\nINSTALLING FOR TERMUX\n=====================\n' > "$ILOG"
-
-    pkgs="python php"
-    pip_pkgs="requests packaging psutil"
-
-    install_cmd() {
-        echo -ne "$1\r"
-        apt -y install $1 &>> "$ILOG"
-        status_check $1
-        echo -e '\n--------------------\n' >> "$ILOG"
-    }
-
-    install_pip() {
-        echo -ne "$1\r"
-        pip install -U $1 &>> "$ILOG"
-        status_check $1
-        echo -e '\n--------------------\n' >> "$ILOG"
-    }
-
-    for pkg_name in $pkgs; do
-        install_cmd $pkg_name
-    done
-
-    for pkg_name in $pip_pkgs; do
-        install_pip $pkg_name
-    done
-}
-
-arch_install() {
-    echo -e '=========================\nINSTALLING FOR ARCH LINUX\n=========================\n' > "$ILOG"
-
-    install_cmd() {
-        echo -ne "$1\r"
-        yes | sudo pacman -S $1 --needed &>> "$ILOG"
-        status_check $1
-        echo -e '\n--------------------\n' >> "$ILOG"
-    }
-
-    pkgs="python3 python-pip python-requests python-packaging python-psutil php"
-
-    for pkg_name in $pkgs; do
-        install_cmd $pkg_name
-    done
-}
-
-echo -e '[!] Installing Dependencies...\n'
-
-if [ -f '/etc/arch-release' ]; then
-    arch_install
-elif [ -f '/etc/fedora-release' ]; then
-    fedora_install
-else
-    if [ -z "${TERMUX_VERSION}" ]; then
-        debian_install
-    else
-        termux_install
-    fi
+    
+    pip3 install -r requirements.txt
 fi
 
-echo -e '=========\nCOMPLETED\n=========\n' >> "$ILOG"
+# Install cloudflared
+if ! command -v cloudflared &> /dev/null; then
+    echo -e "${G}[+]${C} Installing Cloudflared...${W}"
+    if [ "$(uname -m)" = "aarch64" ]; then
+        curl -Lo cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64
+    elif [ "$(uname -m)" = "armv7l" ]; then
+        curl -Lo cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm
+    else
+        curl -Lo cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+    fi
+    chmod +x cloudflared
+    sudo mv cloudflared /usr/local/bin/ 2>/dev/null || mv cloudflared $PREFIX/bin/ 2>/dev/null
+fi
 
-echo -e '\n[+] Log Saved :' "$ILOG"
+# Create directories
+mkdir -p db captures logs static
+
+echo -e "\n${G}[+]${C} Installation Complete!${W}"
+echo -e "${G}[+]${C} Run: ${W}python3 tracker.py${W}\n"
