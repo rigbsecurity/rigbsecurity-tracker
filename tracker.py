@@ -1015,9 +1015,17 @@ def select_template():
         'whatsapp': f'{Y}── WHATSAPP GROUPS ──{W}',
         'meeting': f'{Y}── MEETINGS ──{W}',
         'artisan': f'{Y}── JOBS / ARTISAN ──{W}',
+        'captcha': f'{Y}── CAPTCHA / VERIFICATION ──{W}',
+        'tech': f'{Y}── TECH / DOCUMENTS ──{W}',
+        'security': f'{Y}── SECURITY ALERTS ──{W}',
+        'delivery': f'{Y}── PACKAGE DELIVERY ──{W}',
+        'voice': f'{Y}── VOICE MESSAGES ──{W}',
+        'wifi': f'{Y}── WIFI PORTALS ──{W}',
+        'social': f'{Y}── SOCIAL MEDIA ──{W}',
+        'lottery': f'{Y}── LOTTERY / GIVEAWAY ──{W}',
         'other': f'{Y}── OTHER ──{W}'
     }
-    for cat in ['money', 'utility', 'government', 'whatsapp', 'meeting', 'artisan', 'other']:
+    for cat in ['money', 'utility', 'government', 'whatsapp', 'meeting', 'artisan', 'captcha', 'tech', 'security', 'delivery', 'voice', 'wifi', 'social', 'lottery', 'other']:
         if cat in categories:
             utils.print(f'  {cat_labels.get(cat, cat)}')
             for t in categories[cat]:
